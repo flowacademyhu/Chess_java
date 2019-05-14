@@ -52,6 +52,7 @@ public class Board extends JFrame implements MouseListener {
     JLabel choosenLabel;
     boolean isMoved;
     boolean isBlackTurn = false;
+    JFrame pawnReplacerFrame = new JFrame();
 
     public Board() throws HeadlessException {
         this.boardSize = 8;
@@ -170,20 +171,21 @@ public class Board extends JFrame implements MouseListener {
         }
     }
 
-    private void pawnReplacer() {
+    private void pawnReplacerFrameSetter() {
         for (int i = 0; i < liveChessPieceList.size(); i++) {
             int counterNumberOfPieces = 0;
-            JFrame pawnReplacerFrame = new JFrame();
+//            pawnReplacerFrame = new JFrame();
             pawnReplacerFrame.setLayout(new FlowLayout());
             if (liveChessPieceList.get(i) instanceof Pawn
                     && liveChessPieceList.get(i).getyLocation() == 0
                     && liveChessPieceList.get(i).getPieceColor() == ChessPiece.PieceColor.white) {
 
                 for (int j = 0; j < deadChessPieceList.size(); j++) {
-                    if (deadChessPieceList.get(j).getPieceColor() == ChessPiece.PieceColor.white) {
+                    if (deadChessPieceList.get(j).getPieceColor() == ChessPiece.PieceColor.white && !(deadChessPieceList.get(j) instanceof Pawn)) {
 
                         JLabel label = new JLabel();
                         label.setIcon(deadChessPieceList.get(j).getImg());
+                        label.setName("dead " + j);
                         label.setOpaque(true);
                         label.addMouseListener(this);
                         label.setHorizontalAlignment(JLabel.CENTER);
@@ -198,9 +200,10 @@ public class Board extends JFrame implements MouseListener {
                     && liveChessPieceList.get(i).getPieceColor() == ChessPiece.PieceColor.black) {
 
                 for (int j = 0; j < deadChessPieceList.size(); j++) {
-                    if (deadChessPieceList.get(j).getPieceColor() == ChessPiece.PieceColor.black) {
+                    if (deadChessPieceList.get(j).getPieceColor() == ChessPiece.PieceColor.black && !(deadChessPieceList.get(j) instanceof Pawn)) {
 
                         JLabel label = new JLabel();
+                        label.setName("dead " + j);
                         label.setIcon(deadChessPieceList.get(j).getImg());
                         label.setOpaque(true);
                         label.addMouseListener(this);
@@ -212,6 +215,7 @@ public class Board extends JFrame implements MouseListener {
                 }
             }
             if (counterNumberOfPieces != 0) {
+                System.out.println("cica");
                 pawnReplacerFrame.setSize(counterNumberOfPieces * 150, 200);
                 pawnReplacerFrame.setTitle("Pawn Replacer");
                 pawnReplacerFrame.setVisible(true);
@@ -221,8 +225,7 @@ public class Board extends JFrame implements MouseListener {
 
     private void moveControl(MouseEvent e) {
 
-        if (e.getSource() instanceof JLabel) {
-            JLabel label = ((JLabel) e.getSource());
+        JLabel label = ((JLabel) e.getSource());
             if (label.getBackground() == Color.red) {
                 label.setIcon(null);
                 for (int i = 0; i < liveChessPieceList.size(); i++) {
@@ -260,30 +263,44 @@ public class Board extends JFrame implements MouseListener {
                         this.choosenLabel = label;
                     }
                 }
+
             }
-        }
 
         if (isMoved) {
             setupColor();
             isBlackTurn = !isBlackTurn;
-            pawnReplacer();
-
+            pawnReplacerFrameSetter();
         }
     }
 
-
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println(((JLabel) e.getSource()).getIcon());
-        this.isMoved = false;
+        if (e.getSource() instanceof JLabel) {
         String[] location = ((JLabel) e.getSource()).getName().split(" ");
-        this.boardLocationX = Integer.parseInt(location[0]);
-        this.boardLocationY = Integer.parseInt(location[1]);
-        if (choosenLabel == e.getSource()) {
-            setupColor();
-            choosenLabel = null;
-        } else {
-            moveControl(e);
+            if (location[0].equals("dead")) {
+                for (int i = 0; i < liveChessPieceList.size(); i++) {
+                    ChessPiece piece = liveChessPieceList.get(i);
+                    if (piece instanceof Pawn && (piece.getyLocation() == 0 || piece.getyLocation() == 7)) {
+                        labels[piece.getyLocation()][piece.getxLocation()].setIcon(((JLabel) e.getSource()).getIcon());
+                        pawnReplacerFrame.setVisible(false);
+                        pawnReplacerFrame.dispose();
+                        System.out.println("nincs cica");
+                    }
+                }
+
+
+            } else {
+                this.isMoved = false;
+                this.boardLocationX = Integer.parseInt(location[0]);
+                this.boardLocationY = Integer.parseInt(location[1]);
+                if (choosenLabel == e.getSource()) {
+                    setupColor();
+                    choosenLabel = null;
+                } else {
+                    moveControl(e);
+                }
+            }
+
         }
     }
 
