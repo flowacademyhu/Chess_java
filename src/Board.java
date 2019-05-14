@@ -9,8 +9,106 @@ import java.util.List;
 
 public class Board extends JFrame implements MouseListener {
 
-    List<ChessPiece> liveChessPieceList = new ArrayList<>();
-    List<ChessPiece> deadChessPieceList = new ArrayList<>();
+    private JLabel[][] labels;
+    private int boardSize;
+    private int boardLocationX;
+    private int boardLocationY;
+    private ChessPiece choosenPiece;
+    private JLabel choosenLabel;
+    private boolean isMoved;
+    private boolean isBlackTurn = false;
+    private JDialog pawnReplacerFrame;
+    private List<ChessPiece> liveChessPieceList = new ArrayList<>();
+    private List<ChessPiece> deadChessPieceList = new ArrayList<>();
+
+    public JLabel[][] getLabels() {
+        return labels;
+    }
+
+    public void setLabels(JLabel[][] labels) {
+        this.labels = labels;
+    }
+
+    public int getBoardSize() {
+        return boardSize;
+    }
+
+    public void setBoardSize(int boardSize) {
+        this.boardSize = boardSize;
+    }
+
+    public int getBoardLocationX() {
+        return boardLocationX;
+    }
+
+    public void setBoardLocationX(int boardLocationX) {
+        this.boardLocationX = boardLocationX;
+    }
+
+    public int getBoardLocationY() {
+        return boardLocationY;
+    }
+
+    public void setBoardLocationY(int boardLocationY) {
+        this.boardLocationY = boardLocationY;
+    }
+
+    public ChessPiece getChoosenPiece() {
+        return choosenPiece;
+    }
+
+    public void setChoosenPiece(ChessPiece choosenPiece) {
+        this.choosenPiece = choosenPiece;
+    }
+
+    public JLabel getChoosenLabel() {
+        return choosenLabel;
+    }
+
+    public void setChoosenLabel(JLabel choosenLabel) {
+        this.choosenLabel = choosenLabel;
+    }
+
+    public boolean isMoved() {
+        return isMoved;
+    }
+
+    public void setMoved(boolean moved) {
+        isMoved = moved;
+    }
+
+    public boolean isBlackTurn() {
+        return isBlackTurn;
+    }
+
+    public void setBlackTurn(boolean blackTurn) {
+        isBlackTurn = blackTurn;
+    }
+
+    public JDialog getPawnReplacerFrame() {
+        return pawnReplacerFrame;
+    }
+
+    public void setPawnReplacerFrame(JDialog pawnReplacerFrame) {
+        this.pawnReplacerFrame = pawnReplacerFrame;
+    }
+
+    public List<ChessPiece> getLiveChessPieceList() {
+        return liveChessPieceList;
+    }
+
+    public void setLiveChessPieceList(List<ChessPiece> liveChessPieceList) {
+        this.liveChessPieceList = liveChessPieceList;
+    }
+
+    public List<ChessPiece> getDeadChessPieceList() {
+        return deadChessPieceList;
+    }
+
+    public void setDeadChessPieceList(List<ChessPiece> deadChessPieceList) {
+        this.deadChessPieceList = deadChessPieceList;
+    }
+
     King blackKing = new King(ChessPiece.PieceColor.black, 4, 0);
     King whiteKing = new King(ChessPiece.PieceColor.white, 4, 7);
     Pawn whitePawn0 = new Pawn(ChessPiece.PieceColor.white, 0, 6);
@@ -44,15 +142,6 @@ public class Board extends JFrame implements MouseListener {
     Queen blackQueen = new Queen(ChessPiece.PieceColor.black, 3, 0);
     Queen whiteQueen = new Queen(ChessPiece.PieceColor.white, 3, 7);
 
-    JLabel[][] labels;
-    int boardSize;
-    int boardLocationX;
-    int boardLocationY;
-    ChessPiece choosenPiece;
-    JLabel choosenLabel;
-    boolean isMoved;
-    boolean isBlackTurn = false;
-    JFrame pawnReplacerFrame = new JFrame();
 
     public Board() throws HeadlessException {
         this.boardSize = 8;
@@ -174,7 +263,7 @@ public class Board extends JFrame implements MouseListener {
     private void pawnReplacerFrameSetter() {
         for (int i = 0; i < liveChessPieceList.size(); i++) {
             int counterNumberOfPieces = 0;
-//            pawnReplacerFrame = new JFrame();
+            pawnReplacerFrame = new JDialog();
             pawnReplacerFrame.setLayout(new FlowLayout());
             if (liveChessPieceList.get(i) instanceof Pawn
                     && liveChessPieceList.get(i).getyLocation() == 0
@@ -287,7 +376,6 @@ public class Board extends JFrame implements MouseListener {
                         System.out.println("nincs cica");
                     }
                 }
-
 
             } else {
                 this.isMoved = false;
