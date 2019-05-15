@@ -17,97 +17,9 @@ public class Board extends JFrame implements MouseListener {
     private JLabel choosenLabel;
     private boolean isMoved;
     private boolean isBlackTurn = false;
-    private JDialog pawnReplacerFrame;
     private List<ChessPiece> liveChessPieceList = new ArrayList<>();
     private List<ChessPiece> deadChessPieceList = new ArrayList<>();
 
-    public JLabel[][] getLabels() {
-        return labels;
-    }
-
-    public void setLabels(JLabel[][] labels) {
-        this.labels = labels;
-    }
-
-    public int getBoardSize() {
-        return boardSize;
-    }
-
-    public void setBoardSize(int boardSize) {
-        this.boardSize = boardSize;
-    }
-
-    public int getBoardLocationX() {
-        return boardLocationX;
-    }
-
-    public void setBoardLocationX(int boardLocationX) {
-        this.boardLocationX = boardLocationX;
-    }
-
-    public int getBoardLocationY() {
-        return boardLocationY;
-    }
-
-    public void setBoardLocationY(int boardLocationY) {
-        this.boardLocationY = boardLocationY;
-    }
-
-    public ChessPiece getChoosenPiece() {
-        return choosenPiece;
-    }
-
-    public void setChoosenPiece(ChessPiece choosenPiece) {
-        this.choosenPiece = choosenPiece;
-    }
-
-    public JLabel getChoosenLabel() {
-        return choosenLabel;
-    }
-
-    public void setChoosenLabel(JLabel choosenLabel) {
-        this.choosenLabel = choosenLabel;
-    }
-
-    public boolean isMoved() {
-        return isMoved;
-    }
-
-    public void setMoved(boolean moved) {
-        isMoved = moved;
-    }
-
-    public boolean isBlackTurn() {
-        return isBlackTurn;
-    }
-
-    public void setBlackTurn(boolean blackTurn) {
-        isBlackTurn = blackTurn;
-    }
-
-    public JDialog getPawnReplacerFrame() {
-        return pawnReplacerFrame;
-    }
-
-    public void setPawnReplacerFrame(JDialog pawnReplacerFrame) {
-        this.pawnReplacerFrame = pawnReplacerFrame;
-    }
-
-    public List<ChessPiece> getLiveChessPieceList() {
-        return liveChessPieceList;
-    }
-
-    public void setLiveChessPieceList(List<ChessPiece> liveChessPieceList) {
-        this.liveChessPieceList = liveChessPieceList;
-    }
-
-    public List<ChessPiece> getDeadChessPieceList() {
-        return deadChessPieceList;
-    }
-
-    public void setDeadChessPieceList(List<ChessPiece> deadChessPieceList) {
-        this.deadChessPieceList = deadChessPieceList;
-    }
 
     King blackKing = new King(ChessPiece.PieceColor.black, 4, 0);
     King whiteKing = new King(ChessPiece.PieceColor.white, 4, 7);
@@ -260,57 +172,6 @@ public class Board extends JFrame implements MouseListener {
         }
     }
 
-    private void pawnReplacerFrameSetter() {
-        for (int i = 0; i < liveChessPieceList.size(); i++) {
-            int counterNumberOfPieces = 0;
-            pawnReplacerFrame = new JDialog();
-            pawnReplacerFrame.setLayout(new FlowLayout());
-            if (liveChessPieceList.get(i) instanceof Pawn
-                    && liveChessPieceList.get(i).getyLocation() == 0
-                    && liveChessPieceList.get(i).getPieceColor() == ChessPiece.PieceColor.white) {
-
-                for (int j = 0; j < deadChessPieceList.size(); j++) {
-                    if (deadChessPieceList.get(j).getPieceColor() == ChessPiece.PieceColor.white && !(deadChessPieceList.get(j) instanceof Pawn)) {
-
-                        JLabel label = new JLabel();
-                        label.setIcon(deadChessPieceList.get(j).getImg());
-                        label.setName("dead " + j);
-                        label.setOpaque(true);
-                        label.addMouseListener(this);
-                        label.setHorizontalAlignment(JLabel.CENTER);
-                        label.setVerticalAlignment(JLabel.CENTER);
-                        pawnReplacerFrame.add(label);
-                        counterNumberOfPieces++;
-                    }
-                }
-            }
-            if (liveChessPieceList.get(i) instanceof Pawn
-                    && liveChessPieceList.get(i).getyLocation() == 7
-                    && liveChessPieceList.get(i).getPieceColor() == ChessPiece.PieceColor.black) {
-
-                for (int j = 0; j < deadChessPieceList.size(); j++) {
-                    if (deadChessPieceList.get(j).getPieceColor() == ChessPiece.PieceColor.black && !(deadChessPieceList.get(j) instanceof Pawn)) {
-
-                        JLabel label = new JLabel();
-                        label.setName("dead " + j);
-                        label.setIcon(deadChessPieceList.get(j).getImg());
-                        label.setOpaque(true);
-                        label.addMouseListener(this);
-                        label.setHorizontalAlignment(JLabel.CENTER);
-                        label.setVerticalAlignment(JLabel.CENTER);
-                        pawnReplacerFrame.add(label);
-                        counterNumberOfPieces++;
-                    }
-                }
-            }
-            if (counterNumberOfPieces != 0) {
-                System.out.println("cica");
-                pawnReplacerFrame.setSize(counterNumberOfPieces * 150, 200);
-                pawnReplacerFrame.setTitle("Pawn Replacer");
-                pawnReplacerFrame.setVisible(true);
-            }
-        }
-    }
 
     private void moveControl(MouseEvent e) {
 
@@ -347,48 +208,47 @@ public class Board extends JFrame implements MouseListener {
                             break;
                         }
                         this.labels =
-                                choosenPiece.isValidMove(
-                                        boardLocationX, boardLocationY, labels, liveChessPieceList);
+                                choosenPiece.isValidMove(boardLocationX, boardLocationY, labels, liveChessPieceList);
                         this.choosenLabel = label;
                     }
                 }
 
             }
-
         if (isMoved) {
             setupColor();
             isBlackTurn = !isBlackTurn;
-            pawnReplacerFrameSetter();
+            PawnReplacer pawnReplacer = new PawnReplacer(liveChessPieceList, deadChessPieceList, labels);
+            for (int i = 0; i < liveChessPieceList.size(); i++) {
+                if (liveChessPieceList.get(i) instanceof Pawn) {
+                    if (liveChessPieceList.get(i).getyLocation() == 0
+                            && liveChessPieceList.get(i).getPieceColor() == ChessPiece.PieceColor.white) {
+                        pawnReplacer.setWhitePawnReplacerDialog();
+
+                    } else if (liveChessPieceList.get(i).getyLocation() == 7
+                            && liveChessPieceList.get(i).getPieceColor() == ChessPiece.PieceColor.black) {
+                        pawnReplacer.setBlackPawnReplacerDialog();
+                    }
+                }
+
+
+            }
+
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() instanceof JLabel) {
-        String[] location = ((JLabel) e.getSource()).getName().split(" ");
-            if (location[0].equals("dead")) {
-                for (int i = 0; i < liveChessPieceList.size(); i++) {
-                    ChessPiece piece = liveChessPieceList.get(i);
-                    if (piece instanceof Pawn && (piece.getyLocation() == 0 || piece.getyLocation() == 7)) {
-                        labels[piece.getyLocation()][piece.getxLocation()].setIcon(((JLabel) e.getSource()).getIcon());
-                        pawnReplacerFrame.setVisible(false);
-                        pawnReplacerFrame.dispose();
-                        System.out.println("nincs cica");
-                    }
-                }
-
+            String[] location = ((JLabel) e.getSource()).getName().split(" ");
+            this.isMoved = false;
+            this.boardLocationX = Integer.parseInt(location[0]);
+            this.boardLocationY = Integer.parseInt(location[1]);
+            if (choosenLabel == e.getSource()) {
+                setupColor();
+                choosenLabel = null;
             } else {
-                this.isMoved = false;
-                this.boardLocationX = Integer.parseInt(location[0]);
-                this.boardLocationY = Integer.parseInt(location[1]);
-                if (choosenLabel == e.getSource()) {
-                    setupColor();
-                    choosenLabel = null;
-                } else {
-                    moveControl(e);
-                }
+                moveControl(e);
             }
-
         }
     }
 
