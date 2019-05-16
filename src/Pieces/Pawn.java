@@ -12,9 +12,9 @@ public class Pawn extends ChessPiece {
         this.yLocation = yLocation;
 
         if (color == ChessPiece.PieceColor.white) {
-            Img = new ImageIcon("img/White_pawn.png");
+            img = new ImageIcon("img/White_pawn.png");
         } else if (color == ChessPiece.PieceColor.black) {
-            Img = new ImageIcon("img/Black_pawn.png");
+            img = new ImageIcon("img/Black_pawn.png");
         }
     }
 
@@ -23,7 +23,7 @@ public class Pawn extends ChessPiece {
             int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
 
         if (this.pieceColor == PieceColor.white) {
-            if (this.yLocation == 6) {
+            if (this.yLocation == 6 && labels[this.yLocation - 2][this.xLocation].getIcon() == null && labels[this.yLocation - 1][this.xLocation].getIcon() == null) {
                 labels[this.yLocation - 2][this.xLocation].setBackground(Color.green);
             }
             for (int i = 0; i < labels.length; i++) {
@@ -47,7 +47,7 @@ public class Pawn extends ChessPiece {
                 }
             }
         } else if (this.pieceColor == PieceColor.black) {
-            if (this.yLocation == 1) {
+            if (this.yLocation == 1 && labels[this.yLocation + 2][this.xLocation].getIcon() == null && labels[this.yLocation + 1][this.xLocation].getIcon() == null) {
                 labels[this.yLocation + 2][this.xLocation].setBackground(Color.green);
             }
             for (int i = 0; i < labels.length; i++) {

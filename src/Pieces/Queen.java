@@ -11,9 +11,9 @@ public class Queen extends ChessPiece {
         this.yLocation = yLocation;
 
         if (color == PieceColor.white) {
-            Img = new ImageIcon("img/White_queen.png");
+            img = new ImageIcon("img/White_queen.png");
         } else if (color == PieceColor.black) {
-            Img = new ImageIcon("img/Black_queen.png");
+            img = new ImageIcon("img/Black_queen.png");
         }
     }
 

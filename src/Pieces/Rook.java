@@ -5,6 +5,15 @@ import java.awt.*;
 import java.util.List;
 
 public class Rook extends ChessPiece {
+    private boolean isMoved = false;
+
+    public boolean isMoved() {
+        return isMoved;
+    }
+
+    public void setMoved(boolean moved) {
+        isMoved = moved;
+    }
 
     public Rook(ChessPiece.PieceColor color, int xLocation, int yLocation) {
         this.pieceColor = color;
@@ -12,9 +21,9 @@ public class Rook extends ChessPiece {
         this.yLocation = yLocation;
 
         if (color == ChessPiece.PieceColor.white) {
-            Img = new ImageIcon("img/White_rook.png");
+            img = new ImageIcon("img/White_rook.png");
         } else if (color == ChessPiece.PieceColor.black) {
-            Img = new ImageIcon("img/Black_rook.png");
+            img = new ImageIcon("img/Black_rook.png");
         }
     }
 

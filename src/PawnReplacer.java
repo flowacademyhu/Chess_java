@@ -12,9 +12,10 @@ public class PawnReplacer extends JDialog implements MouseListener {
     private List<ChessPiece> liveChessPieceList;
     private List<ChessPiece> deadChessPieceList;
     private JLabel[][] labels;
-    ChessPiece piece;
+    ChessPiece pawn;
 
-    public PawnReplacer(List<ChessPiece> liveChessPieceList, List<ChessPiece> deadChessPieceList, JLabel[][] labels) {
+    public PawnReplacer(List<ChessPiece> liveChessPieceList, List<ChessPiece> deadChessPieceList, JLabel[][] labels, JFrame jFrame) {
+        super(jFrame);
         this.liveChessPieceList = liveChessPieceList;
         this.deadChessPieceList = deadChessPieceList;
         this.labels = labels;
@@ -22,7 +23,7 @@ public class PawnReplacer extends JDialog implements MouseListener {
         this.setTitle("Pawn Replacer");
     }
 
-    public void setWhitePawnReplacerDialog() {
+    public void setWhiteDialog() {
         int counterNumberOfPieces = 0;
         for (int j = 0; j < deadChessPieceList.size(); j++) {
             if (deadChessPieceList.get(j).getPieceColor() == ChessPiece.PieceColor.white && !(deadChessPieceList.get(j) instanceof Pawn)) {
@@ -38,16 +39,15 @@ public class PawnReplacer extends JDialog implements MouseListener {
             }
         }
         if (counterNumberOfPieces != 0) {
-            this.setSize(counterNumberOfPieces * 125, 125);
+            this.setSize(counterNumberOfPieces * 125, 200);
             this.setVisible(true);
         }
     }
 
-    public void setBlackPawnReplacerDialog() {
+    public void setBlackDialog() {
         int counterNumberOfPieces = 0;
         for (int j = 0; j < deadChessPieceList.size(); j++) {
             if (deadChessPieceList.get(j).getPieceColor() == ChessPiece.PieceColor.black && !(deadChessPieceList.get(j) instanceof Pawn)) {
-
                 JLabel label = new JLabel();
                 label.setName(deadChessPieceList.get(j).getImg().toString());
                 label.setIcon(deadChessPieceList.get(j).getImg());
@@ -60,7 +60,7 @@ public class PawnReplacer extends JDialog implements MouseListener {
             }
         }
         if (counterNumberOfPieces != 0) {
-            this.setSize(counterNumberOfPieces * 125, 125);
+            this.setSize(counterNumberOfPieces * 125, 200);
             this.setVisible(true);
         }
     }
@@ -68,9 +68,9 @@ public class PawnReplacer extends JDialog implements MouseListener {
 
     public void setDeadChessPieceToLive(MouseEvent e) {
         for (int i = 0; i < liveChessPieceList.size(); i++) {
-            piece = liveChessPieceList.get(i);
-            if (piece instanceof Pawn && (piece.getyLocation() == 0 || piece.getyLocation() == 7)) {
-                labels[piece.getyLocation()][piece.getxLocation()].setIcon(((JLabel) e.getSource()).getIcon());
+            pawn = liveChessPieceList.get(i);
+            if (pawn instanceof Pawn && (pawn.getyLocation() == 0 || pawn.getyLocation() == 7)) {
+                labels[pawn.getyLocation()][pawn.getxLocation()].setIcon(((JLabel) e.getSource()).getIcon());
                 deadChessPieceList.add(liveChessPieceList.remove(i));
                 break;
             }
@@ -80,8 +80,8 @@ public class PawnReplacer extends JDialog implements MouseListener {
     public void setLiveChessPieceToDead(MouseEvent e) {
         for (int i = 0; i < deadChessPieceList.size(); i++) {
             if (deadChessPieceList.get(i).getImg().toString().equals(((JLabel) e.getSource()).getName())) {
-                deadChessPieceList.get(i).setyLocation(piece.getyLocation());
-                deadChessPieceList.get(i).setxLocation(piece.getxLocation());
+                deadChessPieceList.get(i).setyLocation(pawn.getyLocation());
+                deadChessPieceList.get(i).setxLocation(pawn.getxLocation());
                 liveChessPieceList.add(deadChessPieceList.remove(i));
                 break;
             }

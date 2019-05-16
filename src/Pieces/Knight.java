@@ -6,15 +6,16 @@ import java.util.List;
 
 public class Knight extends ChessPiece {
 
+
     public Knight(PieceColor color, int xLocation, int yLocation) {
         this.pieceColor = color;
         this.xLocation = xLocation;
         this.yLocation = yLocation;
 
         if (color == PieceColor.white) {
-            Img = new ImageIcon("img/White_knight.png");
+            img = new ImageIcon("img/White_knight.png");
         } else if (color == PieceColor.black) {
-            Img = new ImageIcon("img/Black_knight.png");
+            img = new ImageIcon("img/Black_knight.png");
         }
     }
 
@@ -42,4 +43,6 @@ public class Knight extends ChessPiece {
         }
         return labels;
     }
+
+
 }

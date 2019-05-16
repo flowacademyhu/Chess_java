@@ -9,7 +9,7 @@ public abstract class ChessPiece {
         black
     }
 
-    protected ImageIcon Img;
+    protected ImageIcon img;
     protected int xLocation;
     protected int yLocation;
     protected PieceColor pieceColor;
@@ -26,11 +26,11 @@ public abstract class ChessPiece {
     }
 
     public ImageIcon getImg() {
-        return Img;
+        return img;
     }
 
     public void setImg(ImageIcon img) {
-        Img = img;
+        this.img = img;
     }
 
     public int getxLocation() {

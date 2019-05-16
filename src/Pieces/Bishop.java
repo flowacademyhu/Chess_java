@@ -5,15 +5,16 @@ import java.awt.*;
 import java.util.List;
 
 public class Bishop extends ChessPiece {
+
     public Bishop(ChessPiece.PieceColor color, int xLocation, int yLocation) {
         this.pieceColor = color;
         this.xLocation = xLocation;
         this.yLocation = yLocation;
 
         if (color == ChessPiece.PieceColor.white) {
-            Img = new ImageIcon("img/White_bishop.png");
+            img = new ImageIcon("img/White_bishop.png");
         } else if (color == ChessPiece.PieceColor.black) {
-            Img = new ImageIcon("img/Black_bishop.png");
+            img = new ImageIcon("img/Black_bishop.png");
         }
     }
 
