@@ -20,7 +20,6 @@ public class Board extends JFrame implements MouseListener {
     private List<ChessPiece> liveChessPieceList = new ArrayList<>();
     private List<ChessPiece> deadChessPieceList = new ArrayList<>();
 
-
     private King blackKing = new King(ChessPiece.PieceColor.black, 4, 0);
     private King whiteKing = new King(ChessPiece.PieceColor.white, 4, 7);
     private Pawn whitePawn0 = new Pawn(ChessPiece.PieceColor.white, 0, 6);
@@ -103,19 +102,6 @@ public class Board extends JFrame implements MouseListener {
         setVisible(true);
     }
 
-    public void SetupBoard() {
-        for (int i = 0; i < boardSize; i++) {
-            for (int j = 0; j < boardSize; j++) {
-                labels[i][j] = new JLabel();
-                labels[i][j].setName(j + " " + i);
-                add(labels[i][j]);
-                labels[i][j].addMouseListener(this);
-                labels[i][j].setOpaque(true);
-                labels[i][j].setHorizontalAlignment(JLabel.CENTER);
-                labels[i][j].setVerticalAlignment(JLabel.CENTER);
-            }
-        }
-    }
 
     public void SetupIcons() {
         labels[blackKing.getyLocation()][blackKing.getxLocation()].setIcon(blackKing.getImg());
@@ -152,6 +138,20 @@ public class Board extends JFrame implements MouseListener {
         labels[blackQueen.getyLocation()][blackQueen.getxLocation()].setIcon(blackQueen.getImg());
     }
 
+    public void SetupBoard() {
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                labels[i][j] = new JLabel();
+                labels[i][j].setName(j + " " + i);
+                add(labels[i][j]);
+                labels[i][j].addMouseListener(this);
+                labels[i][j].setOpaque(true);
+                labels[i][j].setHorizontalAlignment(JLabel.CENTER);
+                labels[i][j].setVerticalAlignment(JLabel.CENTER);
+            }
+        }
+    }
+
     public void setupColor() {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -172,8 +172,9 @@ public class Board extends JFrame implements MouseListener {
         }
     }
 
-    private void kingCastlingColoring() {
-        if (chosenPiece instanceof King) {
+    private void kingCastlingColor() {
+        if (chosenPiece instanceof King && ((isBlackTurn && chosenPiece.getPieceColor().equals(ChessPiece.PieceColor.black)) ||
+                (!isBlackTurn && chosenPiece.getPieceColor().equals(ChessPiece.PieceColor.white)))) {
             List<Rook> rookList = new ArrayList<>();
             for (int j = 0; j < liveChessPieceList.size(); j++) {
                 if (liveChessPieceList.get(j) instanceof Rook) {
@@ -184,10 +185,37 @@ public class Board extends JFrame implements MouseListener {
         }
     }
 
+    private void executeCastling(JLabel label) {
+        if (label.getBackground() == Color.orange) {
+            for (int i = 0; i < liveChessPieceList.size(); i++) {
+                if (liveChessPieceList.get(i) instanceof Rook && liveChessPieceList.get(i).getPieceColor().equals(chosenPiece.getPieceColor())
+                        && liveChessPieceList.get(i).getxLocation() == 7) {
+                    labels[liveChessPieceList.get(i).getyLocation()][liveChessPieceList.get(i).getxLocation()].setIcon(null);
+                    labels[chosenPiece.getyLocation()][5].setIcon(liveChessPieceList.get(i).getImg());
+                    break;
+                }
 
-    private void moveControl(MouseEvent e) {
+                if (liveChessPieceList.get(i) instanceof Rook && liveChessPieceList.get(i).getPieceColor().equals(chosenPiece.getPieceColor())
+                        && liveChessPieceList.get(i).getxLocation() == 0) {
+                    labels[liveChessPieceList.get(i).getyLocation()][liveChessPieceList.get(i).getxLocation()].setIcon(null);
+                    labels[chosenPiece.getyLocation()][3].setIcon(liveChessPieceList.get(i).getImg());
+                    break;
+                }
+            }
+        }
+    }
 
-        JLabel label = ((JLabel) e.getSource());
+    private void executeMove(JLabel label) {
+        if (label.getBackground() == Color.green || label.getBackground() == Color.red || label.getBackground() == Color.orange) {
+            label.setIcon(chosenPiece.getImg());
+            chosenPiece.setxLocation(boardLocationX);
+            chosenPiece.setyLocation(boardLocationY);
+            isMoved = true;
+            chosenLabel.setIcon(null);
+        }
+    }
+
+    private void chessPieceKnock(JLabel label) {
         if (label.getBackground() == Color.red) {
             label.setIcon(null);
             for (int i = 0; i < liveChessPieceList.size(); i++) {
@@ -200,18 +228,21 @@ public class Board extends JFrame implements MouseListener {
             }
         }
 
-        if (label.getBackground() == Color.green || label.getBackground() == Color.red) {
-            label.setIcon(chosenPiece.getImg());
-            chosenPiece.setxLocation(boardLocationX);
-            chosenPiece.setyLocation(boardLocationY);
-            isMoved = true;
-            chosenLabel.setIcon(null);
-        }
+    }
+
+
+    private void moveControl(JLabel label) {
+
+        chessPieceKnock(label);
+
+        executeCastling(label);
+
+        executeMove(label);
 
         setupColor();
 
         if (!isMoved) {
-            kingCastlingColoring();
+
             for (int i = 0; i < liveChessPieceList.size(); i++) {
                 if (liveChessPieceList.get(i).getxLocation() == boardLocationX
                         && liveChessPieceList.get(i).getyLocation() == boardLocationY) {
@@ -226,8 +257,16 @@ public class Board extends JFrame implements MouseListener {
                     this.chosenLabel = label;
                 }
             }
+            kingCastlingColor();
+
 
         } else if (isMoved) {
+
+            if (chosenPiece instanceof Rook) {
+                ((Rook) chosenPiece).setMoved(true);
+            } else if (chosenPiece instanceof King) {
+                ((King) chosenPiece).setMoved(true);
+            }
 
             setupColor();
             isBlackTurn = !isBlackTurn;
@@ -260,7 +299,7 @@ public class Board extends JFrame implements MouseListener {
                 setupColor();
                 chosenLabel = null;
             } else {
-                moveControl(e);
+                moveControl(((JLabel) e.getSource()));
             }
         }
     }

@@ -53,14 +53,16 @@ public class King extends ChessPiece {
     }
 
     public void castling(JLabel[][] labels, List<Rook> rookList) {
-        System.out.println("cica");
-        System.out.println(labels[this.yLocation][6].getIcon());
         for (int i = 0; i < rookList.size(); i++) {
             if (!this.isMoved && this.xLocation == 4 && labels[this.yLocation][5].getIcon() == null &&
                     labels[this.yLocation][6].getIcon() == null && rookList.get(i).xLocation == 7 &&
                     rookList.get(i).isMoved() == false && this.getPieceColor().equals(rookList.get(i).getPieceColor())) {
                 labels[getyLocation()][6].setBackground(Color.orange);
-                System.out.println("cica");
+            }
+            if (!this.isMoved && this.xLocation == 4 && labels[this.yLocation][3].getIcon() == null &&
+                    labels[this.yLocation][2].getIcon() == null && labels[this.yLocation][1].getIcon() == null && rookList.get(i).xLocation == 0 &&
+                    rookList.get(i).isMoved() == false && this.getPieceColor().equals(rookList.get(i).getPieceColor())) {
+                labels[getyLocation()][2].setBackground(Color.orange);
             }
         }
 
