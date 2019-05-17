@@ -193,11 +193,15 @@ public class Board extends JFrame implements MouseListener {
                         && liveChessPieceList.get(i).getxLocation() == 7) {
                     labels[liveChessPieceList.get(i).getyLocation()][liveChessPieceList.get(i).getxLocation()].setIcon(null);
                     labels[chosenPiece.getyLocation()][5].setIcon(liveChessPieceList.get(i).getImg());
+                    liveChessPieceList.get(i).setyLocation(chosenPiece.getyLocation());
+                    liveChessPieceList.get(i).setxLocation(5);
                     break;
                 } else if (boardLocationX == 2 && liveChessPieceList.get(i) instanceof Rook && liveChessPieceList.get(i).getPieceColor().equals(chosenPiece.getPieceColor())
                         && liveChessPieceList.get(i).getxLocation() == 0) {
                     labels[liveChessPieceList.get(i).getyLocation()][liveChessPieceList.get(i).getxLocation()].setIcon(null);
                     labels[chosenPiece.getyLocation()][3].setIcon(liveChessPieceList.get(i).getImg());
+                    liveChessPieceList.get(i).setyLocation(chosenPiece.getyLocation());
+                    liveChessPieceList.get(i).setxLocation(3);
                     break;
                 }
             }

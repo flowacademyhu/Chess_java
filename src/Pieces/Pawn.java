@@ -38,7 +38,11 @@ public class Pawn extends ChessPiece {
                             if (j == liveChessPieceList.get(k).xLocation
                                     && i == liveChessPieceList.get(k).yLocation) {
                                 if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
-                                    labels[i][j].setBackground(Color.red);
+                                    if (setColor) {
+                                        labels[i][j].setBackground(Color.red);
+                                    } else if (!setColor) {
+                                        checkMateList.add(labels[i][j].getName());
+                                    }
                                 }
                             }
                         }
@@ -65,7 +69,11 @@ public class Pawn extends ChessPiece {
                             if (j == liveChessPieceList.get(k).xLocation
                                     && i == liveChessPieceList.get(k).yLocation) {
                                 if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
-                                    labels[i][j].setBackground(Color.red);
+                                    if (setColor) {
+                                        labels[i][j].setBackground(Color.red);
+                                    } else if (!setColor) {
+                                        checkMateList.add(labels[i][j].getName());
+                                    }
                                 }
                             }
                         }
