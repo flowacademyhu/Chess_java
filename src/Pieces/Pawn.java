@@ -19,8 +19,8 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public JLabel[][] isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
+    public void isValidMove(
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, List<String> checkMateList) {
 
         if (this.pieceColor == PieceColor.white) {
             if (this.yLocation == 6 && labels[this.yLocation - 2][this.xLocation].getIcon() == null && labels[this.yLocation - 1][this.xLocation].getIcon() == null) {
@@ -43,10 +43,14 @@ public class Pawn extends ChessPiece {
                             }
                         }
                     }
-                    labels[i][j].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
+                    if (setColor && this.yLocation == 6) {
+                        labels[i][j].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
+                    }
                 }
             }
+
         } else if (this.pieceColor == PieceColor.black) {
+
             if (this.yLocation == 1 && labels[this.yLocation + 2][this.xLocation].getIcon() == null && labels[this.yLocation + 1][this.xLocation].getIcon() == null) {
                 labels[this.yLocation + 2][this.xLocation].setBackground(Color.green);
             }
@@ -66,10 +70,11 @@ public class Pawn extends ChessPiece {
                             }
                         }
                     }
-                    labels[i][j].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
+                    if (setColor && this.yLocation == 6) {
+                        labels[i][j].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
+                    }
                 }
             }
         }
-        return labels;
     }
 }

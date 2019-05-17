@@ -20,28 +20,33 @@ public class Knight extends ChessPiece {
     }
 
     @Override
-    public JLabel[][] isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
+    public void isValidMove(
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, List<String> checkMateList) {
         for (int i = 0; i < labels.length; i++) {
             for (int j = 0; j < labels.length; j++) {
                 if (((j == x + 1 || j == x - 1) && (i == y + 2 || i == y - 2))
                         || ((j == x + 2 || j == x - 2) && (i == y + 1 || i == y - 1))) {
                     for (int k = 0; k < liveChessPieceList.size(); k++) {
                         if (labels[i][j].getIcon() == null) {
-                            labels[i][j].setBackground(Color.green);
+                            if (setColor) {
+                                labels[i][j].setBackground(Color.green);
+                            } else if (!setColor) {
+                                checkMateList.add(labels[i][j].getName());
+                            }
                         } else if (j == liveChessPieceList.get(k).xLocation
                                 && i == liveChessPieceList.get(k).yLocation) {
                             if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
-                                labels[i][j].setBackground(Color.red);
+                                if (setColor) {
+                                    labels[i][j].setBackground(Color.green);
+                                } else if (!setColor) {
+                                    checkMateList.add(labels[i][j].getName());
+                                }
                             }
                         }
                     }
-                    labels[i][j].setBorder(BorderFactory.createMatteBorder(
-                            0, 0, 1, 1, Color.black));
                 }
             }
         }
-        return labels;
     }
 
 

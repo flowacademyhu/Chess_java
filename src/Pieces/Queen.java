@@ -63,8 +63,8 @@ public class Queen extends ChessPiece {
     }
 
     @Override
-    public JLabel[][] isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
+    public void isValidMove(
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, List<String> checkMateList) {
 
         validation("North", x, --y, labels, liveChessPieceList);
         y = yLocation;
@@ -84,7 +84,5 @@ public class Queen extends ChessPiece {
         y = yLocation;
         x = xLocation;
         validation("NorthEast", ++x, --y, labels, liveChessPieceList);
-
-        return labels;
     }
 }

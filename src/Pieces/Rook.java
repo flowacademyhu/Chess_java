@@ -61,8 +61,8 @@ public class Rook extends ChessPiece {
     }
 
     @Override
-    public JLabel[][] isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
+    public void isValidMove(
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, List<String> checkMateList) {
 
         validation("North", x, --y, labels, liveChessPieceList);
         y = yLocation;
@@ -71,7 +71,5 @@ public class Rook extends ChessPiece {
         validation("East", --x, y, labels, liveChessPieceList);
         x = xLocation;
         validation("West", ++x, y, labels, liveChessPieceList);
-
-        return labels;
     }
 }

@@ -14,8 +14,8 @@ public abstract class ChessPiece {
     protected int yLocation;
     protected PieceColor pieceColor;
 
-    public abstract JLabel[][] isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList);
+    public abstract void isValidMove(
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, List<String> checkMateList);
 
     public PieceColor getPieceColor() {
         return pieceColor;
@@ -27,10 +27,6 @@ public abstract class ChessPiece {
 
     public ImageIcon getImg() {
         return img;
-    }
-
-    public void setImg(ImageIcon img) {
-        this.img = img;
     }
 
     public int getxLocation() {

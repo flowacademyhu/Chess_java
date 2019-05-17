@@ -28,8 +28,8 @@ public class King extends ChessPiece {
     }
 
     @Override
-    public JLabel[][] isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
+    public void isValidMove(
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, List<String> checkMateList) {
         for (int i = 0; i < labels.length; i++) {
             for (int j = 0; j < labels.length; j++) {
                 if ((j == x + 1 || j == x - 1 || j == x)
@@ -37,19 +37,28 @@ public class King extends ChessPiece {
                         && !(j == x && i == y)) {
                     for (int k = 0; k < liveChessPieceList.size(); k++) {
                         if (labels[i][j].getIcon() == null) {
-                            labels[i][j].setBackground(Color.green);
+                            if (setColor) {
+                                labels[i][j].setBackground(Color.green);
+                            } else if (!setColor) {
+                                checkMateList.add(labels[i][j].getName());
+                            }
                         } else if (j == liveChessPieceList.get(k).xLocation
                                 && i == liveChessPieceList.get(k).yLocation) {
                             if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
-                                labels[i][j].setBackground(Color.red);
+                                if (setColor) {
+                                    labels[i][j].setBackground(Color.red);
+                                } else if (!setColor) {
+                                    checkMateList.add(labels[i][j].getName());
+                                }
                             }
                         }
                     }
-                    labels[i][j].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
+                    if (setColor) {
+                        labels[i][j].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
+                    }
                 }
             }
         }
-        return labels;
     }
 
     public void castling(JLabel[][] labels, List<Rook> rookList) {
@@ -67,4 +76,6 @@ public class King extends ChessPiece {
         }
 
     }
+
+//    public void ()
 }
