@@ -24,16 +24,23 @@ public class Pawn extends ChessPiece {
 
         if (this.pieceColor == PieceColor.white) {
             if (this.yLocation == 6 && labels[this.yLocation - 2][this.xLocation].getIcon() == null && labels[this.yLocation - 1][this.xLocation].getIcon() == null) {
-                labels[this.yLocation - 2][this.xLocation].setBackground(Color.green);
+                if (setColor) {
+                    labels[this.yLocation - 2][this.xLocation].setBackground(Color.green);
+                }
             }
             for (int i = 0; i < labels.length; i++) {
                 for (int j = 0; j < labels.length; j++) {
 
                     if (i == y - 1 && j == x) {
                         if (labels[i][j].getIcon() == null) {
-                            labels[i][j].setBackground(Color.green);
+                            if (setColor) {
+                                labels[i][j].setBackground(Color.green);
+                            }
                         }
                     } else if (i == y - 1 && j == x + 1 || i == y - 1 && j == x - 1) {
+                        if (!setColor) {
+                            checkMateList.add(labels[i][j].getName());
+                        }
                         for (int k = 0; k < liveChessPieceList.size(); k++) {
                             if (j == liveChessPieceList.get(k).xLocation
                                     && i == liveChessPieceList.get(k).yLocation) {
@@ -56,13 +63,17 @@ public class Pawn extends ChessPiece {
         } else if (this.pieceColor == PieceColor.black) {
 
             if (this.yLocation == 1 && labels[this.yLocation + 2][this.xLocation].getIcon() == null && labels[this.yLocation + 1][this.xLocation].getIcon() == null) {
-                labels[this.yLocation + 2][this.xLocation].setBackground(Color.green);
+                if (setColor) {
+                    labels[this.yLocation + 2][this.xLocation].setBackground(Color.green);
+                }
             }
             for (int i = 0; i < labels.length; i++) {
                 for (int j = 0; j < labels.length; j++) {
                     if (i == y + 1 && j == x) {
                         if (labels[i][j].getIcon() == null) {
-                            labels[i][j].setBackground(Color.green);
+                            if (setColor) {
+                                labels[i][j].setBackground(Color.green);
+                            }
                         }
                     } else if (i == y + 1 && j == x + 1 || i == y + 1 && j == x - 1) {
                         for (int k = 0; k < liveChessPieceList.size(); k++) {

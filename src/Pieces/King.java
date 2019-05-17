@@ -35,20 +35,23 @@ public class King extends ChessPiece {
                 if ((j == x + 1 || j == x - 1 || j == x)
                         && (i == y + 1 || i == y - 1 || i == y)
                         && !(j == x && i == y)) {
+                    if (labels[i][j].getIcon() == null) {
+                        if (setColor) {
+                            labels[i][j].setBackground(Color.green);
+                        } else {
+                            checkMateList.add(labels[i][j].getName());
+                            System.out.println("cica");
+                        }
+                    }
                     for (int k = 0; k < liveChessPieceList.size(); k++) {
-                        if (labels[i][j].getIcon() == null) {
-                            if (setColor) {
-                                labels[i][j].setBackground(Color.green);
-                            } else if (!setColor) {
-                                checkMateList.add(labels[i][j].getName());
-                            }
-                        } else if (j == liveChessPieceList.get(k).xLocation
+                        if (j == liveChessPieceList.get(k).xLocation
                                 && i == liveChessPieceList.get(k).yLocation) {
                             if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
                                 if (setColor) {
                                     labels[i][j].setBackground(Color.red);
-                                } else if (!setColor) {
+                                } else {
                                     checkMateList.add(labels[i][j].getName());
+                                    System.out.println(labels[i][j].getName());
                                 }
                             }
                         }
