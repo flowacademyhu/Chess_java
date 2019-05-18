@@ -2,6 +2,7 @@ package Pieces;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashSet;
 import java.util.List;
 
 public class King extends ChessPiece {
@@ -29,7 +30,7 @@ public class King extends ChessPiece {
 
     @Override
     public void isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, List<String> checkMateList) {
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, HashSet<String> checkMateList) {
         for (int i = 0; i < labels.length; i++) {
             for (int j = 0; j < labels.length; j++) {
                 if ((j == x + 1 || j == x - 1 || j == x)
@@ -40,7 +41,6 @@ public class King extends ChessPiece {
                             labels[i][j].setBackground(Color.green);
                         } else {
                             checkMateList.add(labels[i][j].getName());
-                            System.out.println("cica");
                         }
                     }
                     for (int k = 0; k < liveChessPieceList.size(); k++) {
@@ -51,7 +51,6 @@ public class King extends ChessPiece {
                                     labels[i][j].setBackground(Color.red);
                                 } else {
                                     checkMateList.add(labels[i][j].getName());
-                                    System.out.println(labels[i][j].getName());
                                 }
                             }
                         }

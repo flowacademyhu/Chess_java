@@ -2,6 +2,7 @@ package Pieces;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashSet;
 import java.util.List;
 
 public class Pawn extends ChessPiece {
@@ -20,7 +21,7 @@ public class Pawn extends ChessPiece {
 
     @Override
     public void isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, List<String> checkMateList) {
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, HashSet<String> checkMateList) {
 
         if (this.pieceColor == PieceColor.white) {
             if (this.yLocation == 6 && labels[this.yLocation - 2][this.xLocation].getIcon() == null && labels[this.yLocation - 1][this.xLocation].getIcon() == null) {
@@ -30,7 +31,9 @@ public class Pawn extends ChessPiece {
             }
             for (int i = 0; i < labels.length; i++) {
                 for (int j = 0; j < labels.length; j++) {
-
+                    if (!setColor && i == yLocation - 1 && j == xLocation + 1 || i == yLocation - 1 && j == xLocation - 1 && labels[i][j].getIcon() == null) {
+                        checkMateList.add(labels[i][j].getName());
+                    }
                     if (i == y - 1 && j == x) {
                         if (labels[i][j].getIcon() == null) {
                             if (setColor) {
@@ -69,6 +72,9 @@ public class Pawn extends ChessPiece {
             }
             for (int i = 0; i < labels.length; i++) {
                 for (int j = 0; j < labels.length; j++) {
+                    if (!setColor && i == yLocation + 1 && j == xLocation + 1 || i == yLocation + 1 && j == xLocation - 1 && labels[i][j].getIcon() == null) {
+                        checkMateList.add(labels[i][j].getName());
+                    }
                     if (i == y + 1 && j == x) {
                         if (labels[i][j].getIcon() == null) {
                             if (setColor) {
@@ -83,7 +89,7 @@ public class Pawn extends ChessPiece {
                                     if (setColor) {
                                         labels[i][j].setBackground(Color.red);
                                     } else if (!setColor) {
-                                        checkMateList.add(labels[i][j].getName());
+                                        labels[i][j].setBackground(Color.green);
                                     }
                                 }
                             }

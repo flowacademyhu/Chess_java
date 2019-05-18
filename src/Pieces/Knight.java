@@ -2,6 +2,7 @@ package Pieces;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashSet;
 import java.util.List;
 
 public class Knight extends ChessPiece {
@@ -21,7 +22,7 @@ public class Knight extends ChessPiece {
 
     @Override
     public void isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, List<String> checkMateList) {
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, HashSet<String> checkMateList) {
         for (int i = 0; i < labels.length; i++) {
             for (int j = 0; j < labels.length; j++) {
                 if (((j == x + 1 || j == x - 1) && (i == y + 2 || i == y - 2))

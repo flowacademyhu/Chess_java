@@ -2,6 +2,7 @@ package Pieces;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashSet;
 import java.util.List;
 
 public class Queen extends ChessPiece {
@@ -18,7 +19,7 @@ public class Queen extends ChessPiece {
     }
 
     private void validation(
-            String dir, int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, List<String> checkMateList) {
+            String dir, int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, HashSet<String> checkMateList) {
         if ((x > 7 || y > 7) || (x < 0 || y < 0)) {
             return;
         }
@@ -72,7 +73,7 @@ public class Queen extends ChessPiece {
 
     @Override
     public void isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, List<String> checkMateList) {
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, HashSet<String> checkMateList) {
 
         validation("North", x, --y, labels, liveChessPieceList, setColor, checkMateList);
         y = yLocation;

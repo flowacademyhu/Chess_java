@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class Board extends JFrame implements MouseListener {
@@ -19,10 +20,10 @@ public class Board extends JFrame implements MouseListener {
     private boolean isBlackTurn = false;
     private List<ChessPiece> liveChessPieceList = new ArrayList<>();
     private List<ChessPiece> deadChessPieceList = new ArrayList<>();
-    private List<String> checkMateList;
+    private HashSet<String> checkMateList;
 
-    private King blackKing = new King(ChessPiece.PieceColor.black, 4, 0);
-    private King whiteKing = new King(ChessPiece.PieceColor.white, 4, 7);
+    //    private King blackKing = new King(ChessPiece.PieceColor.black, 4, 0);
+//    private King whiteKing = new King(ChessPiece.PieceColor.white, 4, 7);
     private Pawn whitePawn0 = new Pawn(ChessPiece.PieceColor.white, 0, 6);
     private Pawn whitePawn1 = new Pawn(ChessPiece.PieceColor.white, 1, 6);
     private Pawn whitePawn2 = new Pawn(ChessPiece.PieceColor.white, 2, 6);
@@ -39,42 +40,42 @@ public class Board extends JFrame implements MouseListener {
     private Pawn blackPawn5 = new Pawn(ChessPiece.PieceColor.black, 5, 1);
     private Pawn blackPawn6 = new Pawn(ChessPiece.PieceColor.black, 6, 1);
     private Pawn blackPawn7 = new Pawn(ChessPiece.PieceColor.black, 7, 1);
-    private Rook blackRook0 = new Rook(ChessPiece.PieceColor.black, 0, 0);
-    private Rook blackRook1 = new Rook(ChessPiece.PieceColor.black, 7, 0);
-    private Rook whiteRook0 = new Rook(ChessPiece.PieceColor.white, 0, 7);
-    private Rook whiteRook1 = new Rook(ChessPiece.PieceColor.white, 7, 7);
-    private Knight blackKnight0 = new Knight(ChessPiece.PieceColor.black, 1, 0);
-    private Knight blackKnight1 = new Knight(ChessPiece.PieceColor.black, 6, 0);
-    private Knight whiteKnight0 = new Knight(ChessPiece.PieceColor.white, 1, 7);
-    private Knight whiteKnight1 = new Knight(ChessPiece.PieceColor.white, 6, 7);
-    private Bishop whiteBishop0 = new Bishop(ChessPiece.PieceColor.white, 2, 7);
-    private Bishop whiteBishop1 = new Bishop(ChessPiece.PieceColor.white, 5, 7);
-    private Bishop blackBishop0 = new Bishop(ChessPiece.PieceColor.black, 2, 0);
-    private Bishop blackBishop1 = new Bishop(ChessPiece.PieceColor.black, 5, 0);
-    private Queen blackQueen = new Queen(ChessPiece.PieceColor.black, 3, 0);
-    private Queen whiteQueen = new Queen(ChessPiece.PieceColor.white, 3, 7);
+//    private Rook blackRook0 = new Rook(ChessPiece.PieceColor.black, 0, 0);
+//    private Rook blackRook1 = new Rook(ChessPiece.PieceColor.black, 7, 0);
+//    private Rook whiteRook0 = new Rook(ChessPiece.PieceColor.white, 0, 7);
+//    private Rook whiteRook1 = new Rook(ChessPiece.PieceColor.white, 7, 7);
+//    private Knight blackKnight0 = new Knight(ChessPiece.PieceColor.black, 1, 0);
+//    private Knight blackKnight1 = new Knight(ChessPiece.PieceColor.black, 6, 0);
+//    private Knight whiteKnight0 = new Knight(ChessPiece.PieceColor.white, 1, 7);
+//    private Knight whiteKnight1 = new Knight(ChessPiece.PieceColor.white, 6, 7);
+//    private Bishop whiteBishop0 = new Bishop(ChessPiece.PieceColor.white, 2, 7);
+//    private Bishop whiteBishop1 = new Bishop(ChessPiece.PieceColor.white, 5, 7);
+//    private Bishop blackBishop0 = new Bishop(ChessPiece.PieceColor.black, 2, 0);
+//    private Bishop blackBishop1 = new Bishop(ChessPiece.PieceColor.black, 5, 0);
+//    private Queen blackQueen = new Queen(ChessPiece.PieceColor.black, 3, 0);
+//    private Queen whiteQueen = new Queen(ChessPiece.PieceColor.white, 3, 7);
 
 
     public Board() throws HeadlessException {
         this.boardSize = 8;
-        liveChessPieceList.add(blackKing);
-        liveChessPieceList.add(whiteKing);
-//        liveChessPieceList.add(whitePawn0);
-//        liveChessPieceList.add(whitePawn1);
-//        liveChessPieceList.add(whitePawn2);
-//        liveChessPieceList.add(whitePawn3);
-//        liveChessPieceList.add(whitePawn4);
-//        liveChessPieceList.add(whitePawn5);
-//        liveChessPieceList.add(whitePawn6);
-//        liveChessPieceList.add(whitePawn7);
-//        liveChessPieceList.add(blackPawn0);
-//        liveChessPieceList.add(blackPawn1);
-//        liveChessPieceList.add(blackPawn2);
-//        liveChessPieceList.add(blackPawn3);
-//        liveChessPieceList.add(blackPawn4);
-//        liveChessPieceList.add(blackPawn5);
-//        liveChessPieceList.add(blackPawn6);
-//        liveChessPieceList.add(blackPawn7);
+//        liveChessPieceList.add(blackKing);
+//        liveChessPieceList.add(whiteKing);
+        liveChessPieceList.add(whitePawn0);
+        liveChessPieceList.add(whitePawn1);
+        liveChessPieceList.add(whitePawn2);
+        liveChessPieceList.add(whitePawn3);
+        liveChessPieceList.add(whitePawn4);
+        liveChessPieceList.add(whitePawn5);
+        liveChessPieceList.add(whitePawn6);
+        liveChessPieceList.add(whitePawn7);
+        liveChessPieceList.add(blackPawn0);
+        liveChessPieceList.add(blackPawn1);
+        liveChessPieceList.add(blackPawn2);
+        liveChessPieceList.add(blackPawn3);
+        liveChessPieceList.add(blackPawn4);
+        liveChessPieceList.add(blackPawn5);
+        liveChessPieceList.add(blackPawn6);
+        liveChessPieceList.add(blackPawn7);
 //        liveChessPieceList.add(whiteRook0);
 //        liveChessPieceList.add(whiteRook1);
 //        liveChessPieceList.add(blackRook0);
@@ -105,24 +106,24 @@ public class Board extends JFrame implements MouseListener {
 
 
     public void SetupIcons() {
-        labels[blackKing.getyLocation()][blackKing.getxLocation()].setIcon(blackKing.getImg());
-        labels[whiteKing.getyLocation()][whiteKing.getxLocation()].setIcon(whiteKing.getImg());
-//        labels[whitePawn0.getyLocation()][whitePawn0.getxLocation()].setIcon(whitePawn0.getImg());
-//        labels[whitePawn1.getyLocation()][whitePawn1.getxLocation()].setIcon(whitePawn1.getImg());
-//        labels[whitePawn2.getyLocation()][whitePawn2.getxLocation()].setIcon(whitePawn2.getImg());
-//        labels[whitePawn3.getyLocation()][whitePawn3.getxLocation()].setIcon(whitePawn3.getImg());
-//        labels[whitePawn4.getyLocation()][whitePawn4.getxLocation()].setIcon(whitePawn4.getImg());
-//        labels[whitePawn5.getyLocation()][whitePawn5.getxLocation()].setIcon(whitePawn5.getImg());
-//        labels[whitePawn6.getyLocation()][whitePawn6.getxLocation()].setIcon(whitePawn6.getImg());
-//        labels[whitePawn7.getyLocation()][whitePawn7.getxLocation()].setIcon(whitePawn7.getImg());
-//        labels[blackPawn0.getyLocation()][blackPawn0.getxLocation()].setIcon(blackPawn0.getImg());
-//        labels[blackPawn1.getyLocation()][blackPawn1.getxLocation()].setIcon(blackPawn1.getImg());
-//        labels[blackPawn2.getyLocation()][blackPawn2.getxLocation()].setIcon(blackPawn2.getImg());
-//        labels[blackPawn3.getyLocation()][blackPawn3.getxLocation()].setIcon(blackPawn3.getImg());
-//        labels[blackPawn4.getyLocation()][blackPawn4.getxLocation()].setIcon(blackPawn4.getImg());
-//        labels[blackPawn5.getyLocation()][blackPawn5.getxLocation()].setIcon(blackPawn5.getImg());
-//        labels[blackPawn6.getyLocation()][blackPawn6.getxLocation()].setIcon(blackPawn6.getImg());
-//        labels[blackPawn7.getyLocation()][blackPawn7.getxLocation()].setIcon(blackPawn7.getImg());
+//        labels[blackKing.getyLocation()][blackKing.getxLocation()].setIcon(blackKing.getImg());
+//        labels[whiteKing.getyLocation()][whiteKing.getxLocation()].setIcon(whiteKing.getImg());
+        labels[whitePawn0.getyLocation()][whitePawn0.getxLocation()].setIcon(whitePawn0.getImg());
+        labels[whitePawn1.getyLocation()][whitePawn1.getxLocation()].setIcon(whitePawn1.getImg());
+        labels[whitePawn2.getyLocation()][whitePawn2.getxLocation()].setIcon(whitePawn2.getImg());
+        labels[whitePawn3.getyLocation()][whitePawn3.getxLocation()].setIcon(whitePawn3.getImg());
+        labels[whitePawn4.getyLocation()][whitePawn4.getxLocation()].setIcon(whitePawn4.getImg());
+        labels[whitePawn5.getyLocation()][whitePawn5.getxLocation()].setIcon(whitePawn5.getImg());
+        labels[whitePawn6.getyLocation()][whitePawn6.getxLocation()].setIcon(whitePawn6.getImg());
+        labels[whitePawn7.getyLocation()][whitePawn7.getxLocation()].setIcon(whitePawn7.getImg());
+        labels[blackPawn0.getyLocation()][blackPawn0.getxLocation()].setIcon(blackPawn0.getImg());
+        labels[blackPawn1.getyLocation()][blackPawn1.getxLocation()].setIcon(blackPawn1.getImg());
+        labels[blackPawn2.getyLocation()][blackPawn2.getxLocation()].setIcon(blackPawn2.getImg());
+        labels[blackPawn3.getyLocation()][blackPawn3.getxLocation()].setIcon(blackPawn3.getImg());
+        labels[blackPawn4.getyLocation()][blackPawn4.getxLocation()].setIcon(blackPawn4.getImg());
+        labels[blackPawn5.getyLocation()][blackPawn5.getxLocation()].setIcon(blackPawn5.getImg());
+        labels[blackPawn6.getyLocation()][blackPawn6.getxLocation()].setIcon(blackPawn6.getImg());
+        labels[blackPawn7.getyLocation()][blackPawn7.getxLocation()].setIcon(blackPawn7.getImg());
 //        labels[blackRook0.getyLocation()][blackRook0.getxLocation()].setIcon(blackRook0.getImg());
 //        labels[blackRook1.getyLocation()][blackRook1.getxLocation()].setIcon(blackRook1.getImg());
 //        labels[whiteRook0.getyLocation()][whiteRook0.getxLocation()].setIcon(whiteRook0.getImg());
@@ -270,12 +271,14 @@ public class Board extends JFrame implements MouseListener {
             }
             setupColor();
 
-            checkMateList = new ArrayList<>();
+            checkMateList = new HashSet<>();
             for (int i = 0; i < liveChessPieceList.size(); i++) {
                 if (!isBlackTurn && liveChessPieceList.get(i).getPieceColor() == ChessPiece.PieceColor.white) {
                     liveChessPieceList.get(i).isValidMove(boardLocationX, boardLocationY, labels, liveChessPieceList, false, checkMateList);
+                    System.out.println("fehér");
                 } else if (isBlackTurn && liveChessPieceList.get(i).getPieceColor() == ChessPiece.PieceColor.black) {
                     liveChessPieceList.get(i).isValidMove(boardLocationX, boardLocationY, labels, liveChessPieceList, false, checkMateList);
+                    System.out.println("fekete");
                 }
             }
             System.out.println(checkMateList);

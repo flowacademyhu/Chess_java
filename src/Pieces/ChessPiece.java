@@ -1,6 +1,7 @@
 package Pieces;
 
 import javax.swing.*;
+import java.util.HashSet;
 import java.util.List;
 
 public abstract class ChessPiece {
@@ -15,7 +16,7 @@ public abstract class ChessPiece {
     protected PieceColor pieceColor;
 
     public abstract void isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, List<String> checkMateList);
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, HashSet<String> checkMateList);
 
     public PieceColor getPieceColor() {
         return pieceColor;
