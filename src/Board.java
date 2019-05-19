@@ -22,8 +22,8 @@ public class Board extends JFrame implements MouseListener {
     private List<ChessPiece> deadChessPieceList = new ArrayList<>();
     private HashSet<String> checkMateList;
 
-    //    private King blackKing = new King(ChessPiece.PieceColor.black, 4, 0);
-//    private King whiteKing = new King(ChessPiece.PieceColor.white, 4, 7);
+    private King blackKing = new King(ChessPiece.PieceColor.black, 4, 0);
+    private King whiteKing = new King(ChessPiece.PieceColor.white, 4, 7);
     private Pawn whitePawn0 = new Pawn(ChessPiece.PieceColor.white, 0, 6);
     private Pawn whitePawn1 = new Pawn(ChessPiece.PieceColor.white, 1, 6);
     private Pawn whitePawn2 = new Pawn(ChessPiece.PieceColor.white, 2, 6);
@@ -40,26 +40,26 @@ public class Board extends JFrame implements MouseListener {
     private Pawn blackPawn5 = new Pawn(ChessPiece.PieceColor.black, 5, 1);
     private Pawn blackPawn6 = new Pawn(ChessPiece.PieceColor.black, 6, 1);
     private Pawn blackPawn7 = new Pawn(ChessPiece.PieceColor.black, 7, 1);
-//    private Rook blackRook0 = new Rook(ChessPiece.PieceColor.black, 0, 0);
-//    private Rook blackRook1 = new Rook(ChessPiece.PieceColor.black, 7, 0);
-//    private Rook whiteRook0 = new Rook(ChessPiece.PieceColor.white, 0, 7);
-//    private Rook whiteRook1 = new Rook(ChessPiece.PieceColor.white, 7, 7);
-//    private Knight blackKnight0 = new Knight(ChessPiece.PieceColor.black, 1, 0);
-//    private Knight blackKnight1 = new Knight(ChessPiece.PieceColor.black, 6, 0);
-//    private Knight whiteKnight0 = new Knight(ChessPiece.PieceColor.white, 1, 7);
-//    private Knight whiteKnight1 = new Knight(ChessPiece.PieceColor.white, 6, 7);
-//    private Bishop whiteBishop0 = new Bishop(ChessPiece.PieceColor.white, 2, 7);
-//    private Bishop whiteBishop1 = new Bishop(ChessPiece.PieceColor.white, 5, 7);
-//    private Bishop blackBishop0 = new Bishop(ChessPiece.PieceColor.black, 2, 0);
-//    private Bishop blackBishop1 = new Bishop(ChessPiece.PieceColor.black, 5, 0);
-//    private Queen blackQueen = new Queen(ChessPiece.PieceColor.black, 3, 0);
-//    private Queen whiteQueen = new Queen(ChessPiece.PieceColor.white, 3, 7);
+    private Rook blackRook0 = new Rook(ChessPiece.PieceColor.black, 0, 0);
+    private Rook blackRook1 = new Rook(ChessPiece.PieceColor.black, 7, 0);
+    private Rook whiteRook0 = new Rook(ChessPiece.PieceColor.white, 0, 7);
+    private Rook whiteRook1 = new Rook(ChessPiece.PieceColor.white, 7, 7);
+    private Knight blackKnight0 = new Knight(ChessPiece.PieceColor.black, 1, 0);
+    private Knight blackKnight1 = new Knight(ChessPiece.PieceColor.black, 6, 0);
+    private Knight whiteKnight0 = new Knight(ChessPiece.PieceColor.white, 1, 7);
+    private Knight whiteKnight1 = new Knight(ChessPiece.PieceColor.white, 6, 7);
+    private Bishop whiteBishop0 = new Bishop(ChessPiece.PieceColor.white, 2, 7);
+    private Bishop whiteBishop1 = new Bishop(ChessPiece.PieceColor.white, 5, 7);
+    private Bishop blackBishop0 = new Bishop(ChessPiece.PieceColor.black, 2, 0);
+    private Bishop blackBishop1 = new Bishop(ChessPiece.PieceColor.black, 5, 0);
+    private Queen blackQueen = new Queen(ChessPiece.PieceColor.black, 3, 0);
+    private Queen whiteQueen = new Queen(ChessPiece.PieceColor.white, 3, 7);
 
 
     public Board() throws HeadlessException {
         this.boardSize = 8;
-//        liveChessPieceList.add(blackKing);
-//        liveChessPieceList.add(whiteKing);
+        liveChessPieceList.add(blackKing);
+        liveChessPieceList.add(whiteKing);
         liveChessPieceList.add(whitePawn0);
         liveChessPieceList.add(whitePawn1);
         liveChessPieceList.add(whitePawn2);
@@ -76,20 +76,20 @@ public class Board extends JFrame implements MouseListener {
         liveChessPieceList.add(blackPawn5);
         liveChessPieceList.add(blackPawn6);
         liveChessPieceList.add(blackPawn7);
-//        liveChessPieceList.add(whiteRook0);
-//        liveChessPieceList.add(whiteRook1);
-//        liveChessPieceList.add(blackRook0);
-//        liveChessPieceList.add(blackRook1);
-//        liveChessPieceList.add(whiteKnight0);
-//        liveChessPieceList.add(whiteKnight1);
-//        liveChessPieceList.add(blackKnight0);
-//        liveChessPieceList.add(blackKnight1);
-//        liveChessPieceList.add(whiteBishop0);
-//        liveChessPieceList.add(whiteBishop1);
-//        liveChessPieceList.add(blackBishop0);
-//        liveChessPieceList.add(blackBishop1);
-//        liveChessPieceList.add(whiteQueen);
-//        liveChessPieceList.add(blackQueen);
+        liveChessPieceList.add(whiteRook0);
+        liveChessPieceList.add(whiteRook1);
+        liveChessPieceList.add(blackRook0);
+        liveChessPieceList.add(blackRook1);
+        liveChessPieceList.add(whiteKnight0);
+        liveChessPieceList.add(whiteKnight1);
+        liveChessPieceList.add(blackKnight0);
+        liveChessPieceList.add(blackKnight1);
+        liveChessPieceList.add(whiteBishop0);
+        liveChessPieceList.add(whiteBishop1);
+        liveChessPieceList.add(blackBishop0);
+        liveChessPieceList.add(blackBishop1);
+        liveChessPieceList.add(whiteQueen);
+        liveChessPieceList.add(blackQueen);
 
         setSize(1080, 1080);
         setTitle("Simon's Chess");
@@ -106,8 +106,8 @@ public class Board extends JFrame implements MouseListener {
 
 
     public void SetupIcons() {
-//        labels[blackKing.getyLocation()][blackKing.getxLocation()].setIcon(blackKing.getImg());
-//        labels[whiteKing.getyLocation()][whiteKing.getxLocation()].setIcon(whiteKing.getImg());
+        labels[blackKing.getyLocation()][blackKing.getxLocation()].setIcon(blackKing.getImg());
+        labels[whiteKing.getyLocation()][whiteKing.getxLocation()].setIcon(whiteKing.getImg());
         labels[whitePawn0.getyLocation()][whitePawn0.getxLocation()].setIcon(whitePawn0.getImg());
         labels[whitePawn1.getyLocation()][whitePawn1.getxLocation()].setIcon(whitePawn1.getImg());
         labels[whitePawn2.getyLocation()][whitePawn2.getxLocation()].setIcon(whitePawn2.getImg());
@@ -124,20 +124,20 @@ public class Board extends JFrame implements MouseListener {
         labels[blackPawn5.getyLocation()][blackPawn5.getxLocation()].setIcon(blackPawn5.getImg());
         labels[blackPawn6.getyLocation()][blackPawn6.getxLocation()].setIcon(blackPawn6.getImg());
         labels[blackPawn7.getyLocation()][blackPawn7.getxLocation()].setIcon(blackPawn7.getImg());
-//        labels[blackRook0.getyLocation()][blackRook0.getxLocation()].setIcon(blackRook0.getImg());
-//        labels[blackRook1.getyLocation()][blackRook1.getxLocation()].setIcon(blackRook1.getImg());
-//        labels[whiteRook0.getyLocation()][whiteRook0.getxLocation()].setIcon(whiteRook0.getImg());
-//        labels[whiteRook1.getyLocation()][whiteRook1.getxLocation()].setIcon(whiteRook1.getImg());
-//        labels[whiteKnight0.getyLocation()][whiteKnight0.getxLocation()].setIcon(whiteKnight0.getImg());
-//        labels[whiteKnight1.getyLocation()][whiteKnight1.getxLocation()].setIcon(whiteKnight1.getImg());
-//        labels[blackKnight0.getyLocation()][blackKnight0.getxLocation()].setIcon(blackKnight0.getImg());
-//        labels[blackKnight1.getyLocation()][blackKnight1.getxLocation()].setIcon(blackKnight1.getImg());
-//        labels[whiteBishop0.getyLocation()][whiteBishop0.getxLocation()].setIcon(whiteBishop0.getImg());
-//        labels[whiteBishop1.getyLocation()][whiteBishop1.getxLocation()].setIcon(whiteBishop1.getImg());
-//        labels[blackBishop0.getyLocation()][blackBishop0.getxLocation()].setIcon(blackBishop0.getImg());
-//        labels[blackBishop0.getyLocation()][blackBishop1.getxLocation()].setIcon(blackBishop1.getImg());
-//        labels[whiteQueen.getyLocation()][whiteQueen.getxLocation()].setIcon(whiteQueen.getImg());
-//        labels[blackQueen.getyLocation()][blackQueen.getxLocation()].setIcon(blackQueen.getImg());
+        labels[blackRook0.getyLocation()][blackRook0.getxLocation()].setIcon(blackRook0.getImg());
+        labels[blackRook1.getyLocation()][blackRook1.getxLocation()].setIcon(blackRook1.getImg());
+        labels[whiteRook0.getyLocation()][whiteRook0.getxLocation()].setIcon(whiteRook0.getImg());
+        labels[whiteRook1.getyLocation()][whiteRook1.getxLocation()].setIcon(whiteRook1.getImg());
+        labels[whiteKnight0.getyLocation()][whiteKnight0.getxLocation()].setIcon(whiteKnight0.getImg());
+        labels[whiteKnight1.getyLocation()][whiteKnight1.getxLocation()].setIcon(whiteKnight1.getImg());
+        labels[blackKnight0.getyLocation()][blackKnight0.getxLocation()].setIcon(blackKnight0.getImg());
+        labels[blackKnight1.getyLocation()][blackKnight1.getxLocation()].setIcon(blackKnight1.getImg());
+        labels[whiteBishop0.getyLocation()][whiteBishop0.getxLocation()].setIcon(whiteBishop0.getImg());
+        labels[whiteBishop1.getyLocation()][whiteBishop1.getxLocation()].setIcon(whiteBishop1.getImg());
+        labels[blackBishop0.getyLocation()][blackBishop0.getxLocation()].setIcon(blackBishop0.getImg());
+        labels[blackBishop0.getyLocation()][blackBishop1.getxLocation()].setIcon(blackBishop1.getImg());
+        labels[whiteQueen.getyLocation()][whiteQueen.getxLocation()].setIcon(whiteQueen.getImg());
+        labels[blackQueen.getyLocation()][blackQueen.getxLocation()].setIcon(blackQueen.getImg());
     }
 
     public void SetupBoard() {
@@ -234,6 +234,50 @@ public class Board extends JFrame implements MouseListener {
 
     }
 
+    private void checkMateList() {
+        checkMateList = new HashSet<>();
+
+        for (ChessPiece chessPiece : liveChessPieceList) {
+            if (chessPiece instanceof Pawn) {
+                if (isBlackTurn && chessPiece.getPieceColor().equals(ChessPiece.PieceColor.black)) {
+                    ((Pawn) chessPiece).checkMateColor(labels, liveChessPieceList);
+                } else if (!isBlackTurn && chessPiece.getPieceColor().equals(ChessPiece.PieceColor.white)) {
+                    ((Pawn) chessPiece).checkMateColor(labels, liveChessPieceList);
+                }
+            } else {
+                if (isBlackTurn && chessPiece.getPieceColor().equals(ChessPiece.PieceColor.black)) {
+                    chessPiece.validMoveColor(chessPiece.getxLocation(), chessPiece.getyLocation(), labels, liveChessPieceList);
+                } else if (!isBlackTurn && chessPiece.getPieceColor().equals(ChessPiece.PieceColor.white)) {
+                    chessPiece.validMoveColor(chessPiece.getxLocation(), chessPiece.getyLocation(), labels, liveChessPieceList);
+                }
+            }
+        }
+
+        for (int i = 0; i < labels.length; i++) {
+            for (int j = 0; j < labels.length; j++) {
+                if (labels[i][j].getBackground().equals(Color.red) || labels[i][j].getBackground().equals(Color.green)) {
+                    checkMateList.add(labels[i][j].getName());
+                }
+            }
+        }
+        setupColor();
+        for (String checkMate : checkMateList) {
+            String[] checkMateLocations = checkMate.split(" ");
+            if (!isBlackTurn) {
+                if (Integer.parseInt(checkMateLocations[0]) == blackKing.getxLocation() && Integer.parseInt(checkMateLocations[1]) == blackKing.getyLocation()) {
+                    labels[blackKing.getyLocation()][blackKing.getxLocation()].setBackground(new Color(255, 0, 0));
+
+                }
+            } else {
+                if (Integer.parseInt(checkMateLocations[0]) == whiteKing.getxLocation() && Integer.parseInt(checkMateLocations[1]) == whiteKing.getyLocation()) {
+                    labels[whiteKing.getyLocation()][whiteKing.getxLocation()].setBackground(new Color(255, 0, 0));
+                }
+            }
+
+
+        }
+    }
+
 
     private void moveControl(JLabel label) {
 
@@ -255,7 +299,7 @@ public class Board extends JFrame implements MouseListener {
                             || !isBlackTurn && chosenPiece.getPieceColor() == ChessPiece.PieceColor.black) {
                         break;
                     }
-                    chosenPiece.isValidMove(boardLocationX, boardLocationY, labels, liveChessPieceList, true, checkMateList);
+                    chosenPiece.validMoveColor(boardLocationX, boardLocationY, labels, liveChessPieceList);
                     this.chosenLabel = label;
                 }
             }
@@ -271,18 +315,7 @@ public class Board extends JFrame implements MouseListener {
             }
             setupColor();
 
-            checkMateList = new HashSet<>();
-            for (int i = 0; i < liveChessPieceList.size(); i++) {
-                if (!isBlackTurn && liveChessPieceList.get(i).getPieceColor() == ChessPiece.PieceColor.white) {
-                    liveChessPieceList.get(i).isValidMove(boardLocationX, boardLocationY, labels, liveChessPieceList, false, checkMateList);
-                    System.out.println("fehér");
-                } else if (isBlackTurn && liveChessPieceList.get(i).getPieceColor() == ChessPiece.PieceColor.black) {
-                    liveChessPieceList.get(i).isValidMove(boardLocationX, boardLocationY, labels, liveChessPieceList, false, checkMateList);
-                    System.out.println("fekete");
-                }
-            }
-            System.out.println(checkMateList);
-
+            checkMateList();
 
             isBlackTurn = !isBlackTurn;
             PawnReplacer pawnReplacer = new PawnReplacer(liveChessPieceList, deadChessPieceList, labels, this);

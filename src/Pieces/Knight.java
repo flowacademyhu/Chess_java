@@ -21,27 +21,19 @@ public class Knight extends ChessPiece {
     }
 
     @Override
-    public void isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, HashSet<String> checkMateList) {
+    public void validMoveColor(
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
         for (int i = 0; i < labels.length; i++) {
             for (int j = 0; j < labels.length; j++) {
                 if (((j == x + 1 || j == x - 1) && (i == y + 2 || i == y - 2))
                         || ((j == x + 2 || j == x - 2) && (i == y + 1 || i == y - 1))) {
                     for (int k = 0; k < liveChessPieceList.size(); k++) {
                         if (labels[i][j].getIcon() == null) {
-                            if (setColor) {
-                                labels[i][j].setBackground(Color.green);
-                            } else if (!setColor) {
-                                checkMateList.add(labels[i][j].getName());
-                            }
+                            labels[i][j].setBackground(Color.green);
                         } else if (j == liveChessPieceList.get(k).xLocation
                                 && i == liveChessPieceList.get(k).yLocation) {
                             if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
-                                if (setColor) {
-                                    labels[i][j].setBackground(Color.green);
-                                } else if (!setColor) {
-                                    checkMateList.add(labels[i][j].getName());
-                                }
+                                labels[i][j].setBackground(Color.green);
                             }
                         }
                     }

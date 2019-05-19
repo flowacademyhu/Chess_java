@@ -2,7 +2,6 @@ package Pieces;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashSet;
 import java.util.List;
 
 public class Pawn extends ChessPiece {
@@ -20,44 +19,33 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public void isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, HashSet<String> checkMateList) {
+    public void validMoveColor(
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
 
         if (this.pieceColor == PieceColor.white) {
             if (this.yLocation == 6 && labels[this.yLocation - 2][this.xLocation].getIcon() == null && labels[this.yLocation - 1][this.xLocation].getIcon() == null) {
-                if (setColor) {
-                    labels[this.yLocation - 2][this.xLocation].setBackground(Color.green);
-                }
+                labels[this.yLocation - 2][this.xLocation].setBackground(Color.green);
             }
             for (int i = 0; i < labels.length; i++) {
                 for (int j = 0; j < labels.length; j++) {
-                    if (!setColor && i == yLocation - 1 && j == xLocation + 1 || i == yLocation - 1 && j == xLocation - 1 && labels[i][j].getIcon() == null) {
-                        checkMateList.add(labels[i][j].getName());
-                    }
                     if (i == y - 1 && j == x) {
                         if (labels[i][j].getIcon() == null) {
-                            if (setColor) {
-                                labels[i][j].setBackground(Color.green);
-                            }
+                            labels[i][j].setBackground(Color.green);
                         }
                     } else if (i == y - 1 && j == x + 1 || i == y - 1 && j == x - 1) {
-                        if (!setColor) {
-                            checkMateList.add(labels[i][j].getName());
-                        }
                         for (int k = 0; k < liveChessPieceList.size(); k++) {
                             if (j == liveChessPieceList.get(k).xLocation
                                     && i == liveChessPieceList.get(k).yLocation) {
                                 if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
-                                    if (setColor) {
-                                        labels[i][j].setBackground(Color.red);
-                                    } else if (!setColor) {
-                                        checkMateList.add(labels[i][j].getName());
-                                    }
+                                    labels[i][j].setBackground(Color.red);
+//                                     else if (!setColor) {
+//                                        checkMateList.add(labels[i][j].getName());
+//                                    }
                                 }
                             }
                         }
                     }
-                    if (setColor && this.yLocation == 6) {
+                    if (this.yLocation == 6) {
                         labels[i][j].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
                     }
                 }
@@ -66,37 +54,45 @@ public class Pawn extends ChessPiece {
         } else if (this.pieceColor == PieceColor.black) {
 
             if (this.yLocation == 1 && labels[this.yLocation + 2][this.xLocation].getIcon() == null && labels[this.yLocation + 1][this.xLocation].getIcon() == null) {
-                if (setColor) {
-                    labels[this.yLocation + 2][this.xLocation].setBackground(Color.green);
-                }
+                labels[this.yLocation + 2][this.xLocation].setBackground(Color.green);
             }
             for (int i = 0; i < labels.length; i++) {
                 for (int j = 0; j < labels.length; j++) {
-                    if (!setColor && i == yLocation + 1 && j == xLocation + 1 || i == yLocation + 1 && j == xLocation - 1 && labels[i][j].getIcon() == null) {
-                        checkMateList.add(labels[i][j].getName());
-                    }
+//                        if (i == yLocation + 1 && j == xLocation + 1 || i == yLocation + 1 && j == xLocation - 1 && labels[i][j].getIcon() == null) {
+//                            checkMateList.add(labels[i][j].getName());
+//                        }
                     if (i == y + 1 && j == x) {
                         if (labels[i][j].getIcon() == null) {
-                            if (setColor) {
-                                labels[i][j].setBackground(Color.green);
-                            }
+                            labels[i][j].setBackground(Color.green);
                         }
                     } else if (i == y + 1 && j == x + 1 || i == y + 1 && j == x - 1) {
                         for (int k = 0; k < liveChessPieceList.size(); k++) {
                             if (j == liveChessPieceList.get(k).xLocation
                                     && i == liveChessPieceList.get(k).yLocation) {
                                 if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
-                                    if (setColor) {
-                                        labels[i][j].setBackground(Color.red);
-                                    } else if (!setColor) {
-                                        labels[i][j].setBackground(Color.green);
-                                    }
+                                    labels[i][j].setBackground(Color.red);
                                 }
                             }
                         }
                     }
-                    if (setColor && this.yLocation == 6) {
+                    if (this.yLocation == 1) {
                         labels[i][j].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
+                    }
+                }
+            }
+        }
+    }
+
+    public void checkMateColor(JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
+        for (int i = 0; i < labels.length; i++) {
+            for (int j = 0; j < labels.length; j++) {
+                if (this.pieceColor == PieceColor.black) {
+                    if (i == yLocation + 1 && j == xLocation + 1 || i == yLocation + 1 && j == xLocation - 1) {
+                        labels[i][j].setBackground(Color.green);
+                    }
+                } else if (this.pieceColor == PieceColor.white) {
+                    if (i == yLocation - 1 && j == xLocation + 1 || i == yLocation - 1 && j == xLocation - 1) {
+                        labels[i][j].setBackground(Color.green);
                     }
                 }
             }

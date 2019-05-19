@@ -29,35 +29,26 @@ public class King extends ChessPiece {
     }
 
     @Override
-    public void isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, HashSet<String> checkMateList) {
+    public void validMoveColor(
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
         for (int i = 0; i < labels.length; i++) {
             for (int j = 0; j < labels.length; j++) {
                 if ((j == x + 1 || j == x - 1 || j == x)
                         && (i == y + 1 || i == y - 1 || i == y)
                         && !(j == x && i == y)) {
                     if (labels[i][j].getIcon() == null) {
-                        if (setColor) {
-                            labels[i][j].setBackground(Color.green);
-                        } else {
-                            checkMateList.add(labels[i][j].getName());
-                        }
+                        labels[i][j].setBackground(Color.green);
                     }
                     for (int k = 0; k < liveChessPieceList.size(); k++) {
                         if (j == liveChessPieceList.get(k).xLocation
                                 && i == liveChessPieceList.get(k).yLocation) {
                             if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
-                                if (setColor) {
-                                    labels[i][j].setBackground(Color.red);
-                                } else {
-                                    checkMateList.add(labels[i][j].getName());
-                                }
+                                labels[i][j].setBackground(Color.red);
                             }
                         }
                     }
-                    if (setColor) {
                         labels[i][j].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
-                    }
+
                 }
             }
         }

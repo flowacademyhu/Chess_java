@@ -15,8 +15,8 @@ public abstract class ChessPiece {
     protected int yLocation;
     protected PieceColor pieceColor;
 
-    public abstract void isValidMove(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList, boolean setColor, HashSet<String> checkMateList);
+    public abstract void validMoveColor(
+            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList);
 
     public PieceColor getPieceColor() {
         return pieceColor;
