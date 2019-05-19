@@ -2,6 +2,7 @@ package Pieces;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashSet;
 import java.util.List;
 
 public class King extends ChessPiece {
@@ -28,8 +29,7 @@ public class King extends ChessPiece {
     }
 
     @Override
-    public void validMoveColor(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
+    public void validMoveColor(int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
         for (int i = 0; i < labels.length; i++) {
             for (int j = 0; j < labels.length; j++) {
                 if ((j == x + 1 || j == x - 1 || j == x)
@@ -52,16 +52,20 @@ public class King extends ChessPiece {
         }
     }
 
-    public void castling(JLabel[][] labels, List<Rook> rookList) {
+    public void castlingColor(JLabel[][] labels, List<Rook> rookList, HashSet<String> checkMateList) {
         for (Rook rook : rookList) {
-            if (!this.isMoved && this.xLocation == 4 && labels[this.yLocation][5].getIcon() == null &&
+            if (!this.isMoved && labels[this.yLocation][5].getIcon() == null &&
                     labels[this.yLocation][6].getIcon() == null && rook.xLocation == 7 &&
-                    rook.isMoved() == false && this.getPieceColor().equals(rook.getPieceColor())) {
+                    rook.isMoved() == false && this.getPieceColor().equals(rook.getPieceColor()) &&
+                    !(checkMateList.contains("4 " + getyLocation()) || checkMateList.contains("6 " + getyLocation()) ||
+                            checkMateList.contains("5 " + getyLocation()))) {
                 labels[getyLocation()][6].setBackground(Color.orange);
             }
-            if (!this.isMoved && this.xLocation == 4 && labels[this.yLocation][3].getIcon() == null &&
+            if (!this.isMoved && labels[this.yLocation][3].getIcon() == null &&
                     labels[this.yLocation][2].getIcon() == null && labels[this.yLocation][1].getIcon() == null && rook.xLocation == 0 &&
-                    rook.isMoved() == false && this.getPieceColor().equals(rook.getPieceColor())) {
+                    rook.isMoved() == false && this.getPieceColor().equals(rook.getPieceColor()) &&
+                    !(checkMateList.contains("4 " + getyLocation()) || checkMateList.contains("3 " + getyLocation()) ||
+                            checkMateList.contains("2 " + getyLocation()))) {
                 labels[getyLocation()][2].setBackground(Color.orange);
             }
         }

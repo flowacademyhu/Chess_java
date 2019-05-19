@@ -9,13 +9,13 @@ public abstract class ChessPiece {
         black
     }
 
+
     protected ImageIcon img;
     protected int xLocation;
     protected int yLocation;
     protected PieceColor pieceColor;
 
-    public abstract void validMoveColor(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList);
+    public abstract void validMoveColor(int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList);
 
     public PieceColor getPieceColor() {
         return pieceColor;

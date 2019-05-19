@@ -1,20 +1,21 @@
+package Dialogs;
+
 import Pieces.ChessPiece;
 import Pieces.Pawn;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
-public class PawnReplacer extends JDialog implements MouseListener {
+public class PawnReplaceDialog extends JDialog implements MouseListener {
 
     private List<ChessPiece> liveChessPieceList;
     private List<ChessPiece> deadChessPieceList;
     private JLabel[][] labels;
     ChessPiece pawn;
 
-    public PawnReplacer(List<ChessPiece> liveChessPieceList, List<ChessPiece> deadChessPieceList, JLabel[][] labels, JFrame jFrame) {
+    public PawnReplaceDialog(List<ChessPiece> liveChessPieceList, List<ChessPiece> deadChessPieceList, JLabel[][] labels, JFrame jFrame) {
         super(jFrame);
         this.liveChessPieceList = liveChessPieceList;
         this.deadChessPieceList = deadChessPieceList;
@@ -25,11 +26,11 @@ public class PawnReplacer extends JDialog implements MouseListener {
 
     public void setWhiteDialog() {
         int counterNumberOfPieces = 0;
-        for (int j = 0; j < deadChessPieceList.size(); j++) {
-            if (deadChessPieceList.get(j).getPieceColor() == ChessPiece.PieceColor.white && !(deadChessPieceList.get(j) instanceof Pawn)) {
+        for (ChessPiece deadChessPiece : deadChessPieceList) {
+            if (deadChessPiece.getPieceColor() == ChessPiece.PieceColor.white && !(deadChessPiece instanceof Pawn)) {
                 JLabel label = new JLabel();
-                label.setName(deadChessPieceList.get(j).getImg().toString());
-                label.setIcon(deadChessPieceList.get(j).getImg());
+                label.setName(deadChessPiece.getImg().toString());
+                label.setIcon(deadChessPiece.getImg());
                 label.setOpaque(true);
                 label.addMouseListener(this);
                 label.setHorizontalAlignment(JLabel.CENTER);

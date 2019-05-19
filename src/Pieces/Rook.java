@@ -27,8 +27,7 @@ public class Rook extends ChessPiece {
         }
     }
 
-    private void validation(
-            String dir, int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
+    private void validation(String dir, int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
         if ((x > 7 || y > 7) || (x < 0 || y < 0)) {
             return;
         }
@@ -61,8 +60,7 @@ public class Rook extends ChessPiece {
     }
 
     @Override
-    public void validMoveColor(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
+    public void validMoveColor(int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
 
         validation("North", x, --y, labels, liveChessPieceList);
         y = yLocation;

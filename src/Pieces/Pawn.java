@@ -23,7 +23,8 @@ public class Pawn extends ChessPiece {
             int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
 
         if (this.pieceColor == PieceColor.white) {
-            if (this.yLocation == 6 && labels[this.yLocation - 2][this.xLocation].getIcon() == null && labels[this.yLocation - 1][this.xLocation].getIcon() == null) {
+            if (this.yLocation == 6 && labels[this.yLocation - 2][this.xLocation].getIcon() == null
+                    && labels[this.yLocation - 1][this.xLocation].getIcon() == null) {
                 labels[this.yLocation - 2][this.xLocation].setBackground(Color.green);
             }
             for (int i = 0; i < labels.length; i++) {
@@ -59,10 +60,10 @@ public class Pawn extends ChessPiece {
                             labels[i][j].setBackground(Color.green);
                         }
                     } else if (i == y + 1 && j == x + 1 || i == y + 1 && j == x - 1) {
-                        for (int k = 0; k < liveChessPieceList.size(); k++) {
-                            if (j == liveChessPieceList.get(k).xLocation
-                                    && i == liveChessPieceList.get(k).yLocation) {
-                                if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
+                        for (ChessPiece liveChessPiece : liveChessPieceList) {
+                            if (j == liveChessPiece.xLocation
+                                    && i == liveChessPiece.yLocation) {
+                                if (liveChessPiece.getPieceColor() != this.pieceColor) {
                                     labels[i][j].setBackground(Color.red);
                                 }
                             }

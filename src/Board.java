@@ -1,5 +1,6 @@
+import Dialogs.PawnReplaceDialog;
+import Dialogs.WinnerDialog;
 import Pieces.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -94,9 +95,8 @@ public class Board extends JFrame implements MouseListener {
         setSize(1080, 1080);
         setTitle("Simon's Chess");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        GridLayout gridLayout = new GridLayout(boardSize, boardSize);
         labels = new JLabel[boardSize][boardSize];
-        setLayout(gridLayout);
+        setLayout(new GridLayout(boardSize, boardSize));
         SetupBoard();
         setupColor();
         SetupIcons();
@@ -178,12 +178,12 @@ public class Board extends JFrame implements MouseListener {
         if (chosenPiece instanceof King && ((isBlackTurn && chosenPiece.getPieceColor().equals(ChessPiece.PieceColor.black)) ||
                 (!isBlackTurn && chosenPiece.getPieceColor().equals(ChessPiece.PieceColor.white)))) {
             List<Rook> rookList = new ArrayList<>();
-            for (int j = 0; j < liveChessPieceList.size(); j++) {
-                if (liveChessPieceList.get(j) instanceof Rook) {
-                    rookList.add((Rook) liveChessPieceList.get(j));
+            for (ChessPiece liveChessPiece : liveChessPieceList) {
+                if (liveChessPiece instanceof Rook) {
+                    rookList.add((Rook) liveChessPiece);
                 }
             }
-            ((King) chosenPiece).castling(labels, rookList);
+            ((King) chosenPiece).castlingColor(labels, rookList, checkMateList);
         }
     }
 
@@ -236,11 +236,13 @@ public class Board extends JFrame implements MouseListener {
                         && liveChessPieceList.get(i).getyLocation() == boardLocationY) {
                     liveChessPieceList.get(i).setyLocation(-1);
                     liveChessPieceList.get(i).setxLocation(-1);
+                    if (liveChessPieceList.get(i) instanceof King) {
+                        new WinnerDialog(this);
+                    }
                     deadChessPieceList.add(liveChessPieceList.remove(i));
                 }
             }
         }
-
     }
 
     private void checkMateList() {
@@ -282,8 +284,6 @@ public class Board extends JFrame implements MouseListener {
                     labels[whiteKing.getyLocation()][whiteKing.getxLocation()].setBackground(new Color(255, 0, 0));
                 }
             }
-
-
         }
     }
 
@@ -326,7 +326,7 @@ public class Board extends JFrame implements MouseListener {
             checkMateList();
 
             isBlackTurn = !isBlackTurn;
-            PawnReplacer pawnReplacer = new PawnReplacer(liveChessPieceList, deadChessPieceList, labels, this);
+            PawnReplaceDialog pawnReplacer = new PawnReplaceDialog(liveChessPieceList, deadChessPieceList, labels, this);
             pawnReplacer.setLocationRelativeTo(this);
             for (ChessPiece liveChessPiece : liveChessPieceList) {
                 if (liveChessPiece instanceof Pawn) {
