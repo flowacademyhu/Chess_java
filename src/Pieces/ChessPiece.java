@@ -1,7 +1,6 @@
 package Pieces;
 
 import javax.swing.*;
-import java.util.HashSet;
 import java.util.List;
 
 public abstract class ChessPiece {
@@ -20,10 +19,6 @@ public abstract class ChessPiece {
 
     public PieceColor getPieceColor() {
         return pieceColor;
-    }
-
-    public void setPieceColor(PieceColor pieceColor) {
-        this.pieceColor = pieceColor;
     }
 
     public ImageIcon getImg() {

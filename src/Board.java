@@ -189,20 +189,20 @@ public class Board extends JFrame implements MouseListener {
 
     private void executeCastling(JLabel label) {
         if (label.getBackground() == Color.orange) {
-            for (int i = 0; i < liveChessPieceList.size(); i++) {
-                if (boardLocationX == 6 && liveChessPieceList.get(i) instanceof Rook && liveChessPieceList.get(i).getPieceColor().equals(chosenPiece.getPieceColor())
-                        && liveChessPieceList.get(i).getxLocation() == 7) {
-                    labels[liveChessPieceList.get(i).getyLocation()][liveChessPieceList.get(i).getxLocation()].setIcon(null);
-                    labels[chosenPiece.getyLocation()][5].setIcon(liveChessPieceList.get(i).getImg());
-                    liveChessPieceList.get(i).setyLocation(chosenPiece.getyLocation());
-                    liveChessPieceList.get(i).setxLocation(5);
+            for (ChessPiece liveChessPiece : liveChessPieceList) {
+                if (boardLocationX == 6 && liveChessPiece instanceof Rook && liveChessPiece.getPieceColor().equals(chosenPiece.getPieceColor())
+                        && liveChessPiece.getxLocation() == 7) {
+                    labels[liveChessPiece.getyLocation()][liveChessPiece.getxLocation()].setIcon(null);
+                    labels[chosenPiece.getyLocation()][5].setIcon(liveChessPiece.getImg());
+                    liveChessPiece.setyLocation(chosenPiece.getyLocation());
+                    liveChessPiece.setxLocation(5);
                     break;
-                } else if (boardLocationX == 2 && liveChessPieceList.get(i) instanceof Rook && liveChessPieceList.get(i).getPieceColor().equals(chosenPiece.getPieceColor())
-                        && liveChessPieceList.get(i).getxLocation() == 0) {
-                    labels[liveChessPieceList.get(i).getyLocation()][liveChessPieceList.get(i).getxLocation()].setIcon(null);
-                    labels[chosenPiece.getyLocation()][3].setIcon(liveChessPieceList.get(i).getImg());
-                    liveChessPieceList.get(i).setyLocation(chosenPiece.getyLocation());
-                    liveChessPieceList.get(i).setxLocation(3);
+                } else if (boardLocationX == 2 && liveChessPiece instanceof Rook && liveChessPiece.getPieceColor().equals(chosenPiece.getPieceColor())
+                        && liveChessPiece.getxLocation() == 0) {
+                    labels[liveChessPiece.getyLocation()][liveChessPiece.getxLocation()].setIcon(null);
+                    labels[chosenPiece.getyLocation()][3].setIcon(liveChessPiece.getImg());
+                    liveChessPiece.setyLocation(chosenPiece.getyLocation());
+                    liveChessPiece.setxLocation(3);
                     break;
                 }
             }
@@ -222,6 +222,15 @@ public class Board extends JFrame implements MouseListener {
     private void chessPieceKnock(JLabel label) {
         if (label.getBackground() == Color.red) {
             label.setIcon(null);
+//            for (ChessPiece liveChessPiece : liveChessPieceList) {
+//                if (liveChessPiece.getxLocation() == boardLocationX
+//                        && liveChessPiece.getyLocation() == boardLocationY) {
+//                    liveChessPiece.setyLocation(-1);
+//                    liveChessPiece.setxLocation(-1);
+//                    deadChessPieceList.add(liveChessPieceList.remove(liveChessPieceList.indexOf(liveChessPiece)));
+//                }
+//
+//            }
             for (int i = 0; i < liveChessPieceList.size(); i++) {
                 if (liveChessPieceList.get(i).getxLocation() == boardLocationX
                         && liveChessPieceList.get(i).getyLocation() == boardLocationY) {
@@ -240,9 +249,9 @@ public class Board extends JFrame implements MouseListener {
         for (ChessPiece chessPiece : liveChessPieceList) {
             if (chessPiece instanceof Pawn) {
                 if (isBlackTurn && chessPiece.getPieceColor().equals(ChessPiece.PieceColor.black)) {
-                    ((Pawn) chessPiece).checkMateColor(labels, liveChessPieceList);
+                    ((Pawn) chessPiece).checkMateColor(labels);
                 } else if (!isBlackTurn && chessPiece.getPieceColor().equals(ChessPiece.PieceColor.white)) {
-                    ((Pawn) chessPiece).checkMateColor(labels, liveChessPieceList);
+                    ((Pawn) chessPiece).checkMateColor(labels);
                 }
             } else {
                 if (isBlackTurn && chessPiece.getPieceColor().equals(ChessPiece.PieceColor.black)) {
@@ -291,10 +300,10 @@ public class Board extends JFrame implements MouseListener {
 
         if (!isMoved) {
 
-            for (int i = 0; i < liveChessPieceList.size(); i++) {
-                if (liveChessPieceList.get(i).getxLocation() == boardLocationX
-                        && liveChessPieceList.get(i).getyLocation() == boardLocationY) {
-                    this.chosenPiece = liveChessPieceList.get(i);
+            for (ChessPiece liveChessPiece : liveChessPieceList) {
+                if (liveChessPiece.getxLocation() == boardLocationX
+                        && liveChessPiece.getyLocation() == boardLocationY) {
+                    this.chosenPiece = liveChessPiece;
                     if (isBlackTurn && chosenPiece.getPieceColor() == ChessPiece.PieceColor.white
                             || !isBlackTurn && chosenPiece.getPieceColor() == ChessPiece.PieceColor.black) {
                         break;
@@ -304,7 +313,6 @@ public class Board extends JFrame implements MouseListener {
                 }
             }
             kingCastlingColor();
-
 
         } else if (isMoved) {
 
@@ -320,14 +328,14 @@ public class Board extends JFrame implements MouseListener {
             isBlackTurn = !isBlackTurn;
             PawnReplacer pawnReplacer = new PawnReplacer(liveChessPieceList, deadChessPieceList, labels, this);
             pawnReplacer.setLocationRelativeTo(this);
-            for (int i = 0; i < liveChessPieceList.size(); i++) {
-                if (liveChessPieceList.get(i) instanceof Pawn) {
-                    if (liveChessPieceList.get(i).getyLocation() == 0
-                            && liveChessPieceList.get(i).getPieceColor() == ChessPiece.PieceColor.white) {
+            for (ChessPiece liveChessPiece : liveChessPieceList) {
+                if (liveChessPiece instanceof Pawn) {
+                    if (liveChessPiece.getyLocation() == 0
+                            && liveChessPiece.getPieceColor() == ChessPiece.PieceColor.white) {
                         pawnReplacer.setWhiteDialog();
                         break;
-                    } else if (liveChessPieceList.get(i).getyLocation() == 7
-                            && liveChessPieceList.get(i).getPieceColor() == ChessPiece.PieceColor.black) {
+                    } else if (liveChessPiece.getyLocation() == 7
+                            && liveChessPiece.getPieceColor() == ChessPiece.PieceColor.black) {
                         pawnReplacer.setBlackDialog();
                         break;
                     }

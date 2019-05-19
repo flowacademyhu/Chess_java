@@ -46,11 +46,11 @@ public class PawnReplacer extends JDialog implements MouseListener {
 
     public void setBlackDialog() {
         int counterNumberOfPieces = 0;
-        for (int j = 0; j < deadChessPieceList.size(); j++) {
-            if (deadChessPieceList.get(j).getPieceColor() == ChessPiece.PieceColor.black && !(deadChessPieceList.get(j) instanceof Pawn)) {
+        for (ChessPiece deadChessPiece : deadChessPieceList) {
+            if (deadChessPiece.getPieceColor() == ChessPiece.PieceColor.black && !(deadChessPiece instanceof Pawn)) {
                 JLabel label = new JLabel();
-                label.setName(deadChessPieceList.get(j).getImg().toString());
-                label.setIcon(deadChessPieceList.get(j).getImg());
+                label.setName(deadChessPiece.getImg().toString());
+                label.setIcon(deadChessPiece.getImg());
                 label.setOpaque(true);
                 label.addMouseListener(this);
                 label.setHorizontalAlignment(JLabel.CENTER);

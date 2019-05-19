@@ -2,7 +2,6 @@ package Pieces;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashSet;
 import java.util.List;
 
 public class King extends ChessPiece {
@@ -39,36 +38,32 @@ public class King extends ChessPiece {
                     if (labels[i][j].getIcon() == null) {
                         labels[i][j].setBackground(Color.green);
                     }
-                    for (int k = 0; k < liveChessPieceList.size(); k++) {
-                        if (j == liveChessPieceList.get(k).xLocation
-                                && i == liveChessPieceList.get(k).yLocation) {
-                            if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
+                    for (ChessPiece liveChessPiece : liveChessPieceList) {
+                        if (j == liveChessPiece.xLocation
+                                && i == liveChessPiece.yLocation) {
+                            if (liveChessPiece.getPieceColor() != this.pieceColor) {
                                 labels[i][j].setBackground(Color.red);
                             }
                         }
                     }
-                        labels[i][j].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
-
+                    labels[i][j].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
                 }
             }
         }
     }
 
     public void castling(JLabel[][] labels, List<Rook> rookList) {
-        for (int i = 0; i < rookList.size(); i++) {
+        for (Rook rook : rookList) {
             if (!this.isMoved && this.xLocation == 4 && labels[this.yLocation][5].getIcon() == null &&
-                    labels[this.yLocation][6].getIcon() == null && rookList.get(i).xLocation == 7 &&
-                    rookList.get(i).isMoved() == false && this.getPieceColor().equals(rookList.get(i).getPieceColor())) {
+                    labels[this.yLocation][6].getIcon() == null && rook.xLocation == 7 &&
+                    rook.isMoved() == false && this.getPieceColor().equals(rook.getPieceColor())) {
                 labels[getyLocation()][6].setBackground(Color.orange);
             }
             if (!this.isMoved && this.xLocation == 4 && labels[this.yLocation][3].getIcon() == null &&
-                    labels[this.yLocation][2].getIcon() == null && labels[this.yLocation][1].getIcon() == null && rookList.get(i).xLocation == 0 &&
-                    rookList.get(i).isMoved() == false && this.getPieceColor().equals(rookList.get(i).getPieceColor())) {
+                    labels[this.yLocation][2].getIcon() == null && labels[this.yLocation][1].getIcon() == null && rook.xLocation == 0 &&
+                    rook.isMoved() == false && this.getPieceColor().equals(rook.getPieceColor())) {
                 labels[getyLocation()][2].setBackground(Color.orange);
             }
         }
-
     }
-
-//    public void ()
 }

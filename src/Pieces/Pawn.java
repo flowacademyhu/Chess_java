@@ -33,14 +33,10 @@ public class Pawn extends ChessPiece {
                             labels[i][j].setBackground(Color.green);
                         }
                     } else if (i == y - 1 && j == x + 1 || i == y - 1 && j == x - 1) {
-                        for (int k = 0; k < liveChessPieceList.size(); k++) {
-                            if (j == liveChessPieceList.get(k).xLocation
-                                    && i == liveChessPieceList.get(k).yLocation) {
-                                if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
+                        for (ChessPiece liveChessPiece : liveChessPieceList) {
+                            if (j == liveChessPiece.xLocation && i == liveChessPiece.yLocation) {
+                                if (liveChessPiece.getPieceColor() != this.pieceColor) {
                                     labels[i][j].setBackground(Color.red);
-//                                     else if (!setColor) {
-//                                        checkMateList.add(labels[i][j].getName());
-//                                    }
                                 }
                             }
                         }
@@ -58,9 +54,6 @@ public class Pawn extends ChessPiece {
             }
             for (int i = 0; i < labels.length; i++) {
                 for (int j = 0; j < labels.length; j++) {
-//                        if (i == yLocation + 1 && j == xLocation + 1 || i == yLocation + 1 && j == xLocation - 1 && labels[i][j].getIcon() == null) {
-//                            checkMateList.add(labels[i][j].getName());
-//                        }
                     if (i == y + 1 && j == x) {
                         if (labels[i][j].getIcon() == null) {
                             labels[i][j].setBackground(Color.green);
@@ -83,7 +76,7 @@ public class Pawn extends ChessPiece {
         }
     }
 
-    public void checkMateColor(JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
+    public void checkMateColor(JLabel[][] labels) {
         for (int i = 0; i < labels.length; i++) {
             for (int j = 0; j < labels.length; j++) {
                 if (this.pieceColor == PieceColor.black) {

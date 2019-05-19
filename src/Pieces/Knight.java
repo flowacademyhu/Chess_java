@@ -33,7 +33,7 @@ public class Knight extends ChessPiece {
                         } else if (j == liveChessPieceList.get(k).xLocation
                                 && i == liveChessPieceList.get(k).yLocation) {
                             if (liveChessPieceList.get(k).getPieceColor() != this.pieceColor) {
-                                labels[i][j].setBackground(Color.green);
+                                labels[i][j].setBackground(Color.red);
                             }
                         }
                     }

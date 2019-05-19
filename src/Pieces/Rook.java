@@ -2,7 +2,6 @@ package Pieces;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashSet;
 import java.util.List;
 
 public class Rook extends ChessPiece {
@@ -33,12 +32,12 @@ public class Rook extends ChessPiece {
         if ((x > 7 || y > 7) || (x < 0 || y < 0)) {
             return;
         }
-        for (int i = 0; i < liveChessPieceList.size(); i++) {
-            if (x == liveChessPieceList.get(i).xLocation && y == liveChessPieceList.get(i).yLocation) {
-                if (liveChessPieceList.get(i).getPieceColor() != this.pieceColor) {
+        for (ChessPiece liveChessPiece : liveChessPieceList) {
+            if (x == liveChessPiece.xLocation && y == liveChessPiece.yLocation) {
+                if (liveChessPiece.getPieceColor() != this.pieceColor) {
                         labels[y][x].setBackground(Color.red);
                     return;
-                } else if (liveChessPieceList.get(i).getPieceColor() == this.pieceColor) {
+                } else if (liveChessPiece.getPieceColor() == this.pieceColor) {
                     return;
                 }
             }
