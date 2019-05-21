@@ -1,6 +1,7 @@
 import Dialogs.PawnReplaceDialog;
 import Dialogs.WinnerDialog;
 import Pieces.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -19,9 +20,16 @@ public class Board extends JFrame implements MouseListener {
     private JLabel chosenLabel;
     private boolean isMoved;
     private boolean isBlackTurn = false;
-    private List<ChessPiece> liveChessPieceList = new ArrayList<>();
-    private List<ChessPiece> deadChessPieceList = new ArrayList<>();
+    private List<ChessPiece> liveChessPieceList;
+    private List<ChessPiece> deadChessPieceList;
     private HashSet<String> checkMateList;
+    private JMenuBar menuBar;
+    private JMenu fileMenu;
+    private JMenuItem newGameMenu;
+    private JMenuItem exitMenu;
+    private JMenuItem saveMenu;
+    private JMenuItem openMenu;
+
 
     private King blackKing = new King(ChessPiece.PieceColor.black, 4, 0);
     private King whiteKing = new King(ChessPiece.PieceColor.white, 4, 7);
@@ -59,6 +67,47 @@ public class Board extends JFrame implements MouseListener {
 
     public Board() throws HeadlessException {
         this.boardSize = 8;
+        liveChessPieceList = new ArrayList<>();
+        deadChessPieceList = new ArrayList<>();
+        labels = new JLabel[boardSize][boardSize];
+        menuBar = new JMenuBar();
+        fileMenu = new JMenu("File");
+        newGameMenu = new JMenuItem("New Game");
+        saveMenu = new JMenuItem("Save Game");
+        openMenu = new JMenuItem("Open Game");
+        exitMenu = new JMenuItem("Exit");
+        fillLiveChessList();
+        setSize(1080, 1080);
+        setTitle("Simon's Chess");
+        setLayout(new GridLayout(boardSize, boardSize));
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        fileMenu.add(newGameMenu);
+        newGameMenu.addActionListener(e -> {
+            SetupNewGame();
+        });
+        fileMenu.add(openMenu);
+        openMenu.addActionListener(e -> {
+            System.out.println("open");
+        });
+        fileMenu.add(saveMenu);
+        saveMenu.addActionListener(e -> {
+            System.out.println("save");
+        });
+        fileMenu.add(exitMenu);
+        exitMenu.addActionListener(e -> {
+            dispose();
+        });
+        menuBar.add(fileMenu);
+
+        setJMenuBar(menuBar);
+        SetupBoard();
+        setupColor();
+        SetupIcons();
+        addMouseListener(this);
+        setVisible(true);
+    }
+
+    private void fillLiveChessList() {
         liveChessPieceList.add(blackKing);
         liveChessPieceList.add(whiteKing);
         liveChessPieceList.add(whitePawn0);
@@ -91,21 +140,56 @@ public class Board extends JFrame implements MouseListener {
         liveChessPieceList.add(blackBishop1);
         liveChessPieceList.add(whiteQueen);
         liveChessPieceList.add(blackQueen);
+    }
 
-        setSize(1080, 1080);
-        setTitle("Simon's Chess");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        labels = new JLabel[boardSize][boardSize];
-        setLayout(new GridLayout(boardSize, boardSize));
-        SetupBoard();
-        setupColor();
-        SetupIcons();
-        addMouseListener(this);
-        setVisible(true);
+    private void SetupNewGame() {
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                labels[i][j].setIcon(null);
+            }
+            blackKing = new King(ChessPiece.PieceColor.black, 4, 0);
+            whiteKing = new King(ChessPiece.PieceColor.white, 4, 7);
+            whitePawn0 = new Pawn(ChessPiece.PieceColor.white, 0, 6);
+            whitePawn1 = new Pawn(ChessPiece.PieceColor.white, 1, 6);
+            whitePawn2 = new Pawn(ChessPiece.PieceColor.white, 2, 6);
+            whitePawn3 = new Pawn(ChessPiece.PieceColor.white, 3, 6);
+            whitePawn4 = new Pawn(ChessPiece.PieceColor.white, 4, 6);
+            whitePawn5 = new Pawn(ChessPiece.PieceColor.white, 5, 6);
+            whitePawn6 = new Pawn(ChessPiece.PieceColor.white, 6, 6);
+            whitePawn7 = new Pawn(ChessPiece.PieceColor.white, 7, 6);
+            blackPawn0 = new Pawn(ChessPiece.PieceColor.black, 0, 1);
+            blackPawn1 = new Pawn(ChessPiece.PieceColor.black, 1, 1);
+            blackPawn2 = new Pawn(ChessPiece.PieceColor.black, 2, 1);
+            blackPawn3 = new Pawn(ChessPiece.PieceColor.black, 3, 1);
+            blackPawn4 = new Pawn(ChessPiece.PieceColor.black, 4, 1);
+            blackPawn5 = new Pawn(ChessPiece.PieceColor.black, 5, 1);
+            blackPawn6 = new Pawn(ChessPiece.PieceColor.black, 6, 1);
+            blackPawn7 = new Pawn(ChessPiece.PieceColor.black, 7, 1);
+            blackRook0 = new Rook(ChessPiece.PieceColor.black, 0, 0);
+            blackRook1 = new Rook(ChessPiece.PieceColor.black, 7, 0);
+            whiteRook0 = new Rook(ChessPiece.PieceColor.white, 0, 7);
+            whiteRook1 = new Rook(ChessPiece.PieceColor.white, 7, 7);
+            blackKnight0 = new Knight(ChessPiece.PieceColor.black, 1, 0);
+            blackKnight1 = new Knight(ChessPiece.PieceColor.black, 6, 0);
+            whiteKnight0 = new Knight(ChessPiece.PieceColor.white, 1, 7);
+            whiteKnight1 = new Knight(ChessPiece.PieceColor.white, 6, 7);
+            whiteBishop0 = new Bishop(ChessPiece.PieceColor.white, 2, 7);
+            whiteBishop1 = new Bishop(ChessPiece.PieceColor.white, 5, 7);
+            blackBishop0 = new Bishop(ChessPiece.PieceColor.black, 2, 0);
+            blackBishop1 = new Bishop(ChessPiece.PieceColor.black, 5, 0);
+            blackQueen = new Queen(ChessPiece.PieceColor.black, 3, 0);
+            whiteQueen = new Queen(ChessPiece.PieceColor.white, 3, 7);
+
+            liveChessPieceList = new ArrayList<>();
+            deadChessPieceList = new ArrayList<>();
+            fillLiveChessList();
+            SetupIcons();
+
+        }
     }
 
 
-    public void SetupIcons() {
+    private void SetupIcons() {
         labels[blackKing.getyLocation()][blackKing.getxLocation()].setIcon(blackKing.getImg());
         labels[whiteKing.getyLocation()][whiteKing.getxLocation()].setIcon(whiteKing.getImg());
         labels[whitePawn0.getyLocation()][whitePawn0.getxLocation()].setIcon(whitePawn0.getImg());
@@ -222,15 +306,6 @@ public class Board extends JFrame implements MouseListener {
     private void chessPieceKnock(JLabel label) {
         if (label.getBackground() == Color.red) {
             label.setIcon(null);
-//            for (ChessPiece liveChessPiece : liveChessPieceList) {
-//                if (liveChessPiece.getxLocation() == boardLocationX
-//                        && liveChessPiece.getyLocation() == boardLocationY) {
-//                    liveChessPiece.setyLocation(-1);
-//                    liveChessPiece.setxLocation(-1);
-//                    deadChessPieceList.add(liveChessPieceList.remove(liveChessPieceList.indexOf(liveChessPiece)));
-//                }
-//
-//            }
             for (int i = 0; i < liveChessPieceList.size(); i++) {
                 if (liveChessPieceList.get(i).getxLocation() == boardLocationX
                         && liveChessPieceList.get(i).getyLocation() == boardLocationY) {
@@ -357,6 +432,8 @@ public class Board extends JFrame implements MouseListener {
             } else {
                 moveControl(((JLabel) e.getSource()));
             }
+        } else if (e.getSource() instanceof JMenuItem) {
+
         }
     }
 

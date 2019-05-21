@@ -34,7 +34,7 @@ public class Rook extends ChessPiece {
         for (ChessPiece liveChessPiece : liveChessPieceList) {
             if (x == liveChessPiece.xLocation && y == liveChessPiece.yLocation) {
                 if (liveChessPiece.getPieceColor() != this.pieceColor) {
-                        labels[y][x].setBackground(Color.red);
+                    labels[y][x].setBackground(Color.red);
                     return;
                 } else if (liveChessPiece.getPieceColor() == this.pieceColor) {
                     return;
@@ -42,7 +42,7 @@ public class Rook extends ChessPiece {
             }
         }
         if (labels[y][x].getIcon() == null) {
-                labels[y][x].setBackground(Color.green);
+            labels[y][x].setBackground(Color.green);
             labels[y][x].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
         }
         if (dir.equals("North")) {

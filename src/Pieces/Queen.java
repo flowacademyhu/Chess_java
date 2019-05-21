@@ -34,7 +34,7 @@ public class Queen extends ChessPiece {
             }
         }
         if (labels[y][x].getIcon() == null) {
-                labels[y][x].setBackground(Color.green);
+            labels[y][x].setBackground(Color.green);
             labels[y][x].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
         }
         if (dir.equals("North")) {

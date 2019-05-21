@@ -9,7 +9,6 @@ public abstract class ChessPiece {
         black
     }
 
-
     protected ImageIcon img;
     protected int xLocation;
     protected int yLocation;
