@@ -23,12 +23,18 @@ public class Board extends JFrame implements MouseListener {
     private List<ChessPiece> liveChessPieceList;
     private List<ChessPiece> deadChessPieceList;
     private HashSet<String> checkMateList;
+
     private JMenuBar menuBar;
     private JMenu fileMenu;
     private JMenuItem newGameMenu;
     private JMenuItem exitMenu;
     private JMenuItem saveMenu;
     private JMenuItem openMenu;
+    private JPanel centerPanel;
+    private JPanel northPanel;
+    private JLabel whiteTimer;
+    private JLabel blackTimer;
+    private JLabel colorLabel;
 
 
     private King blackKing = new King(ChessPiece.PieceColor.black, 4, 0);
@@ -79,7 +85,17 @@ public class Board extends JFrame implements MouseListener {
         fillLiveChessList();
         setSize(1080, 1080);
         setTitle("Simon's Chess");
-        setLayout(new GridLayout(boardSize, boardSize));
+
+        setLayout(new BorderLayout());
+        centerPanel = new JPanel();
+        centerPanel.setLayout(new GridLayout(boardSize, boardSize));
+        add(centerPanel, BorderLayout.CENTER);
+        northPanel = new JPanel();
+        northPanel.setPreferredSize(new Dimension(0, 100));
+        northPanel.setLayout(new FlowLayout());
+        add(northPanel, BorderLayout.NORTH);
+
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         fileMenu.add(newGameMenu);
         newGameMenu.addActionListener(e -> {
@@ -229,13 +245,40 @@ public class Board extends JFrame implements MouseListener {
             for (int j = 0; j < boardSize; j++) {
                 labels[i][j] = new JLabel();
                 labels[i][j].setName(j + " " + i);
-                add(labels[i][j]);
+                centerPanel.add(labels[i][j]);
                 labels[i][j].addMouseListener(this);
                 labels[i][j].setOpaque(true);
                 labels[i][j].setHorizontalAlignment(JLabel.CENTER);
                 labels[i][j].setVerticalAlignment(JLabel.CENTER);
             }
         }
+        colorLabel = new JLabel();
+        colorLabel.setText("WHITE'S TURN");
+        colorLabel.setFont(new Font("Serif", Font.PLAIN, 25));
+        colorLabel.setVerticalAlignment(SwingConstants.CENTER);
+        colorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        colorLabel.setOpaque(true);
+        colorLabel.setPreferredSize(new Dimension(400, 100));
+
+        whiteTimer = new JLabel();
+        whiteTimer.setText("0:10");
+        whiteTimer.setFont(new Font("Serif", Font.PLAIN, 30));
+        whiteTimer.setVerticalAlignment(SwingConstants.CENTER);
+        whiteTimer.setHorizontalAlignment(SwingConstants.CENTER);
+        whiteTimer.setOpaque(true);
+        whiteTimer.setPreferredSize(new Dimension(250, 100));
+
+        blackTimer = new JLabel();
+        blackTimer.setText("0:10");
+        blackTimer.setFont(new Font("Serif", Font.PLAIN, 30));
+        blackTimer.setVerticalAlignment(SwingConstants.CENTER);
+        blackTimer.setHorizontalAlignment(SwingConstants.CENTER);
+        blackTimer.setOpaque(true);
+        blackTimer.setPreferredSize(new Dimension(250, 100));
+
+        northPanel.add(whiteTimer);
+        northPanel.add(colorLabel);
+        northPanel.add(blackTimer);
     }
 
     public void setupColor() {
