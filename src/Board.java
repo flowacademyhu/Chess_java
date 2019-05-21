@@ -24,12 +24,7 @@ public class Board extends JFrame implements MouseListener {
     private List<ChessPiece> deadChessPieceList;
     private HashSet<String> checkMateList;
 
-    private JMenuBar menuBar;
-    private JMenu fileMenu;
-    private JMenuItem newGameMenu;
-    private JMenuItem exitMenu;
-    private JMenuItem saveMenu;
-    private JMenuItem openMenu;
+    private MenuBar menuBar;
     private JPanel centerPanel;
     private JPanel northPanel;
     private JLabel whiteTimer;
@@ -76,17 +71,14 @@ public class Board extends JFrame implements MouseListener {
         liveChessPieceList = new ArrayList<>();
         deadChessPieceList = new ArrayList<>();
         labels = new JLabel[boardSize][boardSize];
-        menuBar = new JMenuBar();
-        fileMenu = new JMenu("File");
-        newGameMenu = new JMenuItem("New Game");
-        saveMenu = new JMenuItem("Save Game");
-        openMenu = new JMenuItem("Open Game");
-        exitMenu = new JMenuItem("Exit");
+        menuBar = new MenuBar();
+
+        setLayout(new BorderLayout());
         fillLiveChessList();
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1080, 1080);
         setTitle("Simon's Chess");
 
-        setLayout(new BorderLayout());
         centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(boardSize, boardSize));
         add(centerPanel, BorderLayout.CENTER);
@@ -96,29 +88,72 @@ public class Board extends JFrame implements MouseListener {
         add(northPanel, BorderLayout.NORTH);
 
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        fileMenu.add(newGameMenu);
-        newGameMenu.addActionListener(e -> {
+        menuBar.getNewGameMenuItem().addActionListener(e -> {
             SetupNewGame();
         });
-        fileMenu.add(openMenu);
-        openMenu.addActionListener(e -> {
+
+        menuBar.getOpenMenuItem().addActionListener(e -> {
             System.out.println("open");
         });
-        fileMenu.add(saveMenu);
-        saveMenu.addActionListener(e -> {
+
+        menuBar.getSaveMenuItem().addActionListener(e -> {
             System.out.println("save");
         });
-        fileMenu.add(exitMenu);
-        exitMenu.addActionListener(e -> {
+
+        menuBar.getExitMenuItem().addActionListener(e -> {
             dispose();
         });
-        menuBar.add(fileMenu);
+
+        menuBar.getNormalModeMenuItem().addActionListener(e -> {
+            SetupNewGame();
+        });
+
+        menuBar.getTournamentModeMenuItem().addActionListener(e -> {
+            System.out.println("tournament");
+        });
+
+        menuBar.getTrollGameMenuItem().addActionListener(e -> {
+            whiteKing.setImg(new ImageIcon("img/Cat_king.png"));
+            whiteQueen.setImg(new ImageIcon("img/Cat_queen.png"));
+            whitePawn0.setImg(new ImageIcon("img/Cat_pawn.png"));
+            whitePawn1.setImg(new ImageIcon("img/Cat_pawn.png"));
+            whitePawn2.setImg(new ImageIcon("img/Cat_pawn.png"));
+            whitePawn3.setImg(new ImageIcon("img/Cat_pawn.png"));
+            whitePawn4.setImg(new ImageIcon("img/Cat_pawn.png"));
+            whitePawn5.setImg(new ImageIcon("img/Cat_pawn.png"));
+            whitePawn6.setImg(new ImageIcon("img/Cat_pawn.png"));
+            whitePawn7.setImg(new ImageIcon("img/Cat_pawn.png"));
+            whiteBishop0.setImg(new ImageIcon("img/Cat_bishop.png"));
+            whiteBishop1.setImg(new ImageIcon("img/Cat_bishop.png"));
+            whiteKnight0.setImg(new ImageIcon("img/Cat_knight.png"));
+            whiteKnight1.setImg(new ImageIcon("img/Cat_knight.png"));
+            whiteRook0.setImg(new ImageIcon("img/Cat_rook.png"));
+            whiteRook1.setImg(new ImageIcon("img/Cat_rook.png"));
+            blackKing.setImg(new ImageIcon("img/Dog_king.png"));
+            blackQueen.setImg(new ImageIcon("img/Dog_queen.png"));
+            blackPawn0.setImg(new ImageIcon("img/Dog_pawn.png"));
+            blackPawn1.setImg(new ImageIcon("img/Dog_pawn.png"));
+            blackPawn2.setImg(new ImageIcon("img/Dog_pawn.png"));
+            blackPawn3.setImg(new ImageIcon("img/Dog_pawn.png"));
+            blackPawn4.setImg(new ImageIcon("img/Dog_pawn.png"));
+            blackPawn5.setImg(new ImageIcon("img/Dog_pawn.png"));
+            blackPawn6.setImg(new ImageIcon("img/Dog_pawn.png"));
+            blackPawn7.setImg(new ImageIcon("img/Dog_pawn.png"));
+            blackBishop0.setImg(new ImageIcon("img/Dog_bishop.png"));
+            blackBishop1.setImg(new ImageIcon("img/Dog_bishop.png"));
+            blackKnight0.setImg(new ImageIcon("img/Dog_knight.png"));
+            blackKnight1.setImg(new ImageIcon("img/Dog_knight.png"));
+            blackRook0.setImg(new ImageIcon("img/Dog_rook.png"));
+            blackRook1.setImg(new ImageIcon("img/Dog_rook.png"));
+
+            setupIcons();
+        });
+
 
         setJMenuBar(menuBar);
-        SetupBoard();
+        setupBoard();
         setupColor();
-        SetupIcons();
+        setupIcons();
         addMouseListener(this);
         setVisible(true);
     }
@@ -199,13 +234,13 @@ public class Board extends JFrame implements MouseListener {
             liveChessPieceList = new ArrayList<>();
             deadChessPieceList = new ArrayList<>();
             fillLiveChessList();
-            SetupIcons();
+            setupIcons();
 
         }
     }
 
 
-    private void SetupIcons() {
+    private void setupIcons() {
         labels[blackKing.getyLocation()][blackKing.getxLocation()].setIcon(blackKing.getImg());
         labels[whiteKing.getyLocation()][whiteKing.getxLocation()].setIcon(whiteKing.getImg());
         labels[whitePawn0.getyLocation()][whitePawn0.getxLocation()].setIcon(whitePawn0.getImg());
@@ -240,7 +275,7 @@ public class Board extends JFrame implements MouseListener {
         labels[blackQueen.getyLocation()][blackQueen.getxLocation()].setIcon(blackQueen.getImg());
     }
 
-    public void SetupBoard() {
+    private void setupBoard() {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
                 labels[i][j] = new JLabel();
@@ -281,7 +316,7 @@ public class Board extends JFrame implements MouseListener {
         northPanel.add(blackTimer);
     }
 
-    public void setupColor() {
+    private void setupColor() {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
                 if (i % 2 == 0) {
@@ -444,6 +479,13 @@ public class Board extends JFrame implements MouseListener {
             checkMateList();
 
             isBlackTurn = !isBlackTurn;
+            if (isBlackTurn) {
+                colorLabel.setText("BLACK'S TURN");
+
+            } else {
+                colorLabel.setText("WHITE'S TURN");
+            }
+
             PawnReplaceDialog pawnReplacer = new PawnReplaceDialog(liveChessPieceList, deadChessPieceList, labels, this);
             pawnReplacer.setLocationRelativeTo(this);
             for (ChessPiece liveChessPiece : liveChessPieceList) {

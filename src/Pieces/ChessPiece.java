@@ -24,6 +24,10 @@ public abstract class ChessPiece {
         return img;
     }
 
+    public void setImg(ImageIcon img) {
+        this.img = img;
+    }
+
     public int getxLocation() {
         return xLocation;
     }
