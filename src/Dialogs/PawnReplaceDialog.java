@@ -62,7 +62,7 @@ public class PawnReplaceDialog extends JDialog implements MouseListener {
             }
         }
         if (counterNumberOfPieces != 0) {
-            this.setSize(counterNumberOfPieces * 125, 200);
+            this.setSize(counterNumberOfPieces * 125, 125);
             this.setVisible(true);
         }
     }

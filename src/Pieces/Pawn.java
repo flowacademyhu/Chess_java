@@ -5,17 +5,27 @@ import java.awt.*;
 import java.util.List;
 
 public class Pawn extends ChessPiece {
+    private boolean isDoubleMoved;
 
     public Pawn(ChessPiece.PieceColor color, int xLocation, int yLocation) {
         this.pieceColor = color;
         this.xLocation = xLocation;
         this.yLocation = yLocation;
+        this.isDoubleMoved = false;
 
         if (color == ChessPiece.PieceColor.white) {
             img = new ImageIcon("img/White_pawn.png");
         } else if (color == ChessPiece.PieceColor.black) {
             img = new ImageIcon("img/Black_pawn.png");
         }
+    }
+
+    public boolean isDoubleMoved() {
+        return isDoubleMoved;
+    }
+
+    public void setDoubleMoved(boolean doubleMoved) {
+        isDoubleMoved = doubleMoved;
     }
 
     @Override
@@ -27,6 +37,20 @@ public class Pawn extends ChessPiece {
                     && labels[this.yLocation - 1][this.xLocation].getIcon() == null) {
                 labels[this.yLocation - 2][this.xLocation].setBackground(Color.green);
             }
+
+            if (this.getyLocation() == 3) {
+                for (ChessPiece liveChessPiece : liveChessPieceList) {
+                    if (liveChessPiece instanceof Pawn && ((Pawn) liveChessPiece).isDoubleMoved == true && liveChessPiece.getxLocation() == getxLocation() - 1 &&
+                            liveChessPiece.getyLocation() == getyLocation()) {
+                        labels[getyLocation() - 1][getxLocation() - 1].setBackground(Color.pink);
+                    } else if (liveChessPiece instanceof Pawn && ((Pawn) liveChessPiece).isDoubleMoved == true && liveChessPiece.getxLocation() == getxLocation() + 1 &&
+                            liveChessPiece.getyLocation() == getyLocation()) {
+                        labels[getyLocation() - 1][getxLocation() + 1].setBackground(Color.pink);
+                    }
+
+                }
+            }
+
             for (int i = 0; i < labels.length; i++) {
                 for (int j = 0; j < labels.length; j++) {
                     if (i == y - 1 && j == x) {
@@ -52,6 +76,18 @@ public class Pawn extends ChessPiece {
 
             if (this.yLocation == 1 && labels[this.yLocation + 2][this.xLocation].getIcon() == null && labels[this.yLocation + 1][this.xLocation].getIcon() == null) {
                 labels[this.yLocation + 2][this.xLocation].setBackground(Color.green);
+            }
+            if (this.getyLocation() == 4) {
+                for (ChessPiece liveChessPiece : liveChessPieceList) {
+                    if (liveChessPiece instanceof Pawn && ((Pawn) liveChessPiece).isDoubleMoved == true && liveChessPiece.getxLocation() == getxLocation() - 1 &&
+                            liveChessPiece.getyLocation() == getyLocation()) {
+                        labels[getyLocation() + 1][getxLocation() - 1].setBackground(Color.pink);
+                    } else if (liveChessPiece instanceof Pawn && ((Pawn) liveChessPiece).isDoubleMoved == true && liveChessPiece.getxLocation() == getxLocation() + 1 &&
+                            liveChessPiece.getyLocation() == getyLocation()) {
+                        labels[getyLocation() + 1][getxLocation() + 1].setBackground(Color.pink);
+                    }
+
+                }
             }
             for (int i = 0; i < labels.length; i++) {
                 for (int j = 0; j < labels.length; j++) {

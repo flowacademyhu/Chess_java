@@ -1,9 +1,10 @@
 package Pieces;
 
 import javax.swing.*;
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class ChessPiece {
+public abstract class ChessPiece implements Serializable {
     public enum PieceColor {
         white,
         black

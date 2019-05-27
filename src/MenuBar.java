@@ -49,7 +49,7 @@ public class MenuBar extends JMenuBar {
 
     public MenuBar() {
         fileMenu = new JMenu("File");
-        modeMenu = new JMenu("Mode");
+        modeMenu = new JMenu("Modes");
         newGameMenuItem = new JMenuItem("New Game");
         saveMenuItem = new JMenuItem("Save Game");
         openMenuItem = new JMenuItem("Open Game");

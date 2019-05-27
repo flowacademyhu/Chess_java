@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,18 +20,19 @@ public class Board extends JFrame implements MouseListener {
     private ChessPiece chosenPiece;
     private JLabel chosenLabel;
     private boolean isMoved;
-    private boolean isBlackTurn = false;
+    private boolean isBlackTurn;
     private List<ChessPiece> liveChessPieceList;
     private List<ChessPiece> deadChessPieceList;
     private HashSet<String> checkMateList;
-
     private MenuBar menuBar;
     private JPanel centerPanel;
     private JPanel northPanel;
-    private JLabel whiteTimer;
-    private JLabel blackTimer;
+    private JLabel whiteTimerLabel;
+    private JLabel blackTimerLabel;
     private JLabel colorLabel;
-
+    private Thread threadTimer;
+    private int whiteTimerValue;
+    private int blackTimerValue;
 
     private King blackKing = new King(ChessPiece.PieceColor.black, 4, 0);
     private King whiteKing = new King(ChessPiece.PieceColor.white, 4, 7);
@@ -65,13 +67,13 @@ public class Board extends JFrame implements MouseListener {
     private Queen blackQueen = new Queen(ChessPiece.PieceColor.black, 3, 0);
     private Queen whiteQueen = new Queen(ChessPiece.PieceColor.white, 3, 7);
 
-
     public Board() throws HeadlessException {
         this.boardSize = 8;
         liveChessPieceList = new ArrayList<>();
         deadChessPieceList = new ArrayList<>();
         labels = new JLabel[boardSize][boardSize];
         menuBar = new MenuBar();
+        isBlackTurn = false;
 
         setLayout(new BorderLayout());
         fillLiveChessList();
@@ -87,29 +89,144 @@ public class Board extends JFrame implements MouseListener {
         northPanel.setLayout(new FlowLayout());
         add(northPanel, BorderLayout.NORTH);
 
-
-        menuBar.getNewGameMenuItem().addActionListener(e -> {
-            SetupNewGame();
-        });
+        menuBar.getNewGameMenuItem().addActionListener(e -> SetupNewGame());
 
         menuBar.getOpenMenuItem().addActionListener(e -> {
-            System.out.println("open");
+
+            FileInputStream fi = null;
+            try {
+                fi = new FileInputStream(new File("save.ser"));
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                ObjectInputStream oi = new ObjectInputStream(fi);
+                isBlackTurn = oi.readBoolean();
+                liveChessPieceList = (List<ChessPiece>) oi.readObject();
+                deadChessPieceList = (List<ChessPiece>) oi.readObject();
+                whiteKing = (King) oi.readObject();
+                whiteQueen = (Queen) oi.readObject();
+                whiteBishop0 = (Bishop) oi.readObject();
+                whiteBishop1 = (Bishop) oi.readObject();
+                whiteRook0 = (Rook) oi.readObject();
+                whiteRook1 = (Rook) oi.readObject();
+                whiteKnight0 = (Knight) oi.readObject();
+                whiteKnight1 = (Knight) oi.readObject();
+                whitePawn0 = (Pawn) oi.readObject();
+                whitePawn1 = (Pawn) oi.readObject();
+                whitePawn2 = (Pawn) oi.readObject();
+                whitePawn3 = (Pawn) oi.readObject();
+                whitePawn4 = (Pawn) oi.readObject();
+                whitePawn5 = (Pawn) oi.readObject();
+                whitePawn6 = (Pawn) oi.readObject();
+                whitePawn7 = (Pawn) oi.readObject();
+                blackKing = (King) oi.readObject();
+                blackQueen = (Queen) oi.readObject();
+                blackBishop0 = (Bishop) oi.readObject();
+                blackBishop1 = (Bishop) oi.readObject();
+                blackRook0 = (Rook) oi.readObject();
+                blackRook1 = (Rook) oi.readObject();
+                blackKnight0 = (Knight) oi.readObject();
+                blackKnight1 = (Knight) oi.readObject();
+                blackPawn0 = (Pawn) oi.readObject();
+                blackPawn1 = (Pawn) oi.readObject();
+                blackPawn2 = (Pawn) oi.readObject();
+                blackPawn3 = (Pawn) oi.readObject();
+                blackPawn4 = (Pawn) oi.readObject();
+                blackPawn5 = (Pawn) oi.readObject();
+                blackPawn6 = (Pawn) oi.readObject();
+                blackPawn7 = (Pawn) oi.readObject();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            for (int i = 0; i < boardSize; i++) {
+                for (int j = 0; j < boardSize; j++) {
+                    labels[i][j].setIcon(null);
+                }
+            }
+            if (isBlackTurn) {
+                colorLabel.setText("BLACK'S TURN");
+
+            } else {
+                colorLabel.setText("WHITE'S TURN");
+            }
+            setupBoardColor();
+            setupIcons();
+
         });
 
         menuBar.getSaveMenuItem().addActionListener(e -> {
-            System.out.println("save");
+            FileOutputStream fout;
+            ObjectOutputStream oos;
+            try {
+                fout = new FileOutputStream("save.ser");
+                oos = new ObjectOutputStream(fout);
+                oos.writeBoolean(isBlackTurn);
+                oos.writeObject(liveChessPieceList);
+                oos.writeObject(deadChessPieceList);
+                oos.writeObject(whiteKing);
+                oos.writeObject(whiteQueen);
+                oos.writeObject(whiteBishop0);
+                oos.writeObject(whiteBishop1);
+                oos.writeObject(whiteRook0);
+                oos.writeObject(whiteRook1);
+                oos.writeObject(whiteKnight0);
+                oos.writeObject(whiteKnight1);
+                oos.writeObject(whitePawn0);
+                oos.writeObject(whitePawn1);
+                oos.writeObject(whitePawn2);
+                oos.writeObject(whitePawn3);
+                oos.writeObject(whitePawn4);
+                oos.writeObject(whitePawn5);
+                oos.writeObject(whitePawn6);
+                oos.writeObject(whitePawn7);
+                oos.writeObject(blackKing);
+                oos.writeObject(blackQueen);
+                oos.writeObject(blackBishop0);
+                oos.writeObject(blackBishop1);
+                oos.writeObject(blackRook0);
+                oos.writeObject(blackRook1);
+                oos.writeObject(blackKnight0);
+                oos.writeObject(blackKnight1);
+                oos.writeObject(blackPawn0);
+                oos.writeObject(blackPawn1);
+                oos.writeObject(blackPawn2);
+                oos.writeObject(blackPawn3);
+                oos.writeObject(blackPawn4);
+                oos.writeObject(blackPawn5);
+                oos.writeObject(blackPawn6);
+                oos.writeObject(blackPawn7);
+
+                oos.close();
+                fout.close();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
-        menuBar.getExitMenuItem().addActionListener(e -> {
-            dispose();
-        });
+        menuBar.getExitMenuItem().addActionListener(e -> dispose());
 
         menuBar.getNormalModeMenuItem().addActionListener(e -> {
+            blackTimerLabel.setVisible(false);
+            whiteTimerLabel.setVisible(false);
             SetupNewGame();
+
+            if (threadTimer.isAlive()) {
+                threadTimer.stop();
+            }
         });
 
         menuBar.getTournamentModeMenuItem().addActionListener(e -> {
-            System.out.println("tournament");
+            blackTimerLabel.setVisible(true);
+            whiteTimerLabel.setVisible(true);
+            SetupNewGame();
+            whiteTimerValue = 10;
+            blackTimerValue = 0;
+            timer();
         });
 
         menuBar.getTrollGameMenuItem().addActionListener(e -> {
@@ -152,7 +269,7 @@ public class Board extends JFrame implements MouseListener {
 
         setJMenuBar(menuBar);
         setupBoard();
-        setupColor();
+        setupBoardColor();
         setupIcons();
         addMouseListener(this);
         setVisible(true);
@@ -231,48 +348,30 @@ public class Board extends JFrame implements MouseListener {
             blackQueen = new Queen(ChessPiece.PieceColor.black, 3, 0);
             whiteQueen = new Queen(ChessPiece.PieceColor.white, 3, 7);
 
+            isBlackTurn = false;
+            colorLabel.setText("WHITE'S TURN");
             liveChessPieceList = new ArrayList<>();
             deadChessPieceList = new ArrayList<>();
             fillLiveChessList();
             setupIcons();
-
+            setupBoardColor();
+            whiteTimerValue = 10;
+            blackTimerValue = -2;
+            blackTimerLabel.setText("0:10");
         }
     }
 
 
     private void setupIcons() {
-        labels[blackKing.getyLocation()][blackKing.getxLocation()].setIcon(blackKing.getImg());
-        labels[whiteKing.getyLocation()][whiteKing.getxLocation()].setIcon(whiteKing.getImg());
-        labels[whitePawn0.getyLocation()][whitePawn0.getxLocation()].setIcon(whitePawn0.getImg());
-        labels[whitePawn1.getyLocation()][whitePawn1.getxLocation()].setIcon(whitePawn1.getImg());
-        labels[whitePawn2.getyLocation()][whitePawn2.getxLocation()].setIcon(whitePawn2.getImg());
-        labels[whitePawn3.getyLocation()][whitePawn3.getxLocation()].setIcon(whitePawn3.getImg());
-        labels[whitePawn4.getyLocation()][whitePawn4.getxLocation()].setIcon(whitePawn4.getImg());
-        labels[whitePawn5.getyLocation()][whitePawn5.getxLocation()].setIcon(whitePawn5.getImg());
-        labels[whitePawn6.getyLocation()][whitePawn6.getxLocation()].setIcon(whitePawn6.getImg());
-        labels[whitePawn7.getyLocation()][whitePawn7.getxLocation()].setIcon(whitePawn7.getImg());
-        labels[blackPawn0.getyLocation()][blackPawn0.getxLocation()].setIcon(blackPawn0.getImg());
-        labels[blackPawn1.getyLocation()][blackPawn1.getxLocation()].setIcon(blackPawn1.getImg());
-        labels[blackPawn2.getyLocation()][blackPawn2.getxLocation()].setIcon(blackPawn2.getImg());
-        labels[blackPawn3.getyLocation()][blackPawn3.getxLocation()].setIcon(blackPawn3.getImg());
-        labels[blackPawn4.getyLocation()][blackPawn4.getxLocation()].setIcon(blackPawn4.getImg());
-        labels[blackPawn5.getyLocation()][blackPawn5.getxLocation()].setIcon(blackPawn5.getImg());
-        labels[blackPawn6.getyLocation()][blackPawn6.getxLocation()].setIcon(blackPawn6.getImg());
-        labels[blackPawn7.getyLocation()][blackPawn7.getxLocation()].setIcon(blackPawn7.getImg());
-        labels[blackRook0.getyLocation()][blackRook0.getxLocation()].setIcon(blackRook0.getImg());
-        labels[blackRook1.getyLocation()][blackRook1.getxLocation()].setIcon(blackRook1.getImg());
-        labels[whiteRook0.getyLocation()][whiteRook0.getxLocation()].setIcon(whiteRook0.getImg());
-        labels[whiteRook1.getyLocation()][whiteRook1.getxLocation()].setIcon(whiteRook1.getImg());
-        labels[whiteKnight0.getyLocation()][whiteKnight0.getxLocation()].setIcon(whiteKnight0.getImg());
-        labels[whiteKnight1.getyLocation()][whiteKnight1.getxLocation()].setIcon(whiteKnight1.getImg());
-        labels[blackKnight0.getyLocation()][blackKnight0.getxLocation()].setIcon(blackKnight0.getImg());
-        labels[blackKnight1.getyLocation()][blackKnight1.getxLocation()].setIcon(blackKnight1.getImg());
-        labels[whiteBishop0.getyLocation()][whiteBishop0.getxLocation()].setIcon(whiteBishop0.getImg());
-        labels[whiteBishop1.getyLocation()][whiteBishop1.getxLocation()].setIcon(whiteBishop1.getImg());
-        labels[blackBishop0.getyLocation()][blackBishop0.getxLocation()].setIcon(blackBishop0.getImg());
-        labels[blackBishop0.getyLocation()][blackBishop1.getxLocation()].setIcon(blackBishop1.getImg());
-        labels[whiteQueen.getyLocation()][whiteQueen.getxLocation()].setIcon(whiteQueen.getImg());
-        labels[blackQueen.getyLocation()][blackQueen.getxLocation()].setIcon(blackQueen.getImg());
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                for (ChessPiece liveChessPiece : liveChessPieceList) {
+                    if (i == liveChessPiece.getyLocation() && j == liveChessPiece.getxLocation()) {
+                        labels[i][j].setIcon(liveChessPiece.getImg());
+                    }
+                }
+            }
+        }
     }
 
     private void setupBoard() {
@@ -295,28 +394,74 @@ public class Board extends JFrame implements MouseListener {
         colorLabel.setOpaque(true);
         colorLabel.setPreferredSize(new Dimension(400, 100));
 
-        whiteTimer = new JLabel();
-        whiteTimer.setText("0:10");
-        whiteTimer.setFont(new Font("Serif", Font.PLAIN, 30));
-        whiteTimer.setVerticalAlignment(SwingConstants.CENTER);
-        whiteTimer.setHorizontalAlignment(SwingConstants.CENTER);
-        whiteTimer.setOpaque(true);
-        whiteTimer.setPreferredSize(new Dimension(250, 100));
+        whiteTimerLabel = new JLabel();
+        whiteTimerLabel.setText("0:10");
+        whiteTimerLabel.setFont(new Font("Serif", Font.PLAIN, 30));
+        whiteTimerLabel.setVerticalAlignment(SwingConstants.CENTER);
+        whiteTimerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        whiteTimerLabel.setOpaque(true);
+        whiteTimerLabel.setPreferredSize(new Dimension(250, 100));
 
-        blackTimer = new JLabel();
-        blackTimer.setText("0:10");
-        blackTimer.setFont(new Font("Serif", Font.PLAIN, 30));
-        blackTimer.setVerticalAlignment(SwingConstants.CENTER);
-        blackTimer.setHorizontalAlignment(SwingConstants.CENTER);
-        blackTimer.setOpaque(true);
-        blackTimer.setPreferredSize(new Dimension(250, 100));
+        blackTimerLabel = new JLabel();
+        blackTimerLabel.setText("0:10");
+        blackTimerLabel.setFont(new Font("Serif", Font.PLAIN, 30));
+        blackTimerLabel.setVerticalAlignment(SwingConstants.CENTER);
+        blackTimerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        blackTimerLabel.setOpaque(true);
+        blackTimerLabel.setPreferredSize(new Dimension(250, 100));
 
-        northPanel.add(whiteTimer);
+        northPanel.add(whiteTimerLabel);
         northPanel.add(colorLabel);
-        northPanel.add(blackTimer);
+        northPanel.add(blackTimerLabel);
+        whiteTimerLabel.setVisible(false);
+        blackTimerLabel.setVisible(false);
     }
 
-    private void setupColor() {
+    private void timer() {
+
+        threadTimer = new Thread(() -> {
+
+            while (true) {
+                if (isBlackTurn) {
+                    if (blackTimerValue > 9) {
+                        blackTimerLabel.setText("0:" + blackTimerValue);
+                    } else {
+                        blackTimerLabel.setText("0:0" + blackTimerValue);
+                    }
+                    blackTimerValue--;
+                } else {
+                    if (whiteTimerValue > 9) {
+                        whiteTimerLabel.setText("0:" + whiteTimerValue);
+                    } else {
+                        whiteTimerLabel.setText("0:0" + whiteTimerValue);
+                    }
+                    whiteTimerValue--;
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+
+                }
+                if (whiteTimerValue == -1) {
+                    isBlackTurn = !isBlackTurn;
+                    whiteTimerValue = 0;
+                    setupBoardColor();
+                    colorLabel.setText("BLACK'S TURN");
+                    blackTimerValue += 10;
+                } else if (blackTimerValue == -1) {
+                    isBlackTurn = !isBlackTurn;
+                    blackTimerValue = 0;
+                    setupBoardColor();
+                    colorLabel.setText("WHITE'S TURN");
+                    whiteTimerValue += 10;
+                }
+            }
+        });
+        threadTimer.start();
+
+    }
+
+    private void setupBoardColor() {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
                 if (i % 2 == 0) {
@@ -372,7 +517,21 @@ public class Board extends JFrame implements MouseListener {
     }
 
     private void executeMove(JLabel label) {
-        if (label.getBackground() == Color.green || label.getBackground() == Color.red || label.getBackground() == Color.orange) {
+        if (label.getBackground() == Color.green || label.getBackground() == Color.red || label.getBackground() == Color.orange || label.getBackground() == Color.pink) {
+            if (chosenPiece instanceof Pawn) {
+                for (ChessPiece liveChessPiece : liveChessPieceList) {
+                    if (liveChessPiece instanceof Pawn && !liveChessPiece.getPieceColor().equals(chosenPiece.getPieceColor())) {
+                        if ((chosenPiece.getPieceColor().equals(ChessPiece.PieceColor.black) && chosenPiece.getyLocation() == 1 && boardLocationY == 3 &&
+                                liveChessPiece.getyLocation() == chosenPiece.getyLocation() + 2 &&
+                                (liveChessPiece.getxLocation() == chosenPiece.getxLocation() - 1 || liveChessPiece.getxLocation() == chosenPiece.getxLocation() + 1)) ||
+                                (chosenPiece.getPieceColor().equals(ChessPiece.PieceColor.white) && chosenPiece.getyLocation() == 6 && boardLocationY == 4) &&
+                                        liveChessPiece.getyLocation() == chosenPiece.getyLocation() - 2 &&
+                                        (liveChessPiece.getxLocation() == chosenPiece.getxLocation() - 1 || liveChessPiece.getxLocation() == chosenPiece.getxLocation() + 1)) {
+                            ((Pawn) chosenPiece).setDoubleMoved(true);
+                        }
+                    }
+                }
+            }
             label.setIcon(chosenPiece.getImg());
             chosenPiece.setxLocation(boardLocationX);
             chosenPiece.setyLocation(boardLocationY);
@@ -394,6 +553,23 @@ public class Board extends JFrame implements MouseListener {
                     }
                     deadChessPieceList.add(liveChessPieceList.remove(i));
                 }
+            }
+        } else if (label.getBackground() == Color.pink) {
+            for (int i = 0; i < liveChessPieceList.size(); i++) {
+                if (liveChessPieceList.get(i).getxLocation() == boardLocationX
+                        && liveChessPieceList.get(i).getyLocation() == boardLocationY + 1) {
+                    labels[boardLocationY + 1][boardLocationX].setIcon(null);
+                    liveChessPieceList.get(i).setyLocation(-1);
+                    liveChessPieceList.get(i).setxLocation(-1);
+                    deadChessPieceList.add(liveChessPieceList.remove(i));
+                } else if (liveChessPieceList.get(i).getxLocation() == boardLocationX
+                        && liveChessPieceList.get(i).getyLocation() == boardLocationY - 1) {
+                    labels[boardLocationY - 1][boardLocationX].setIcon(null);
+                    liveChessPieceList.get(i).setyLocation(-1);
+                    liveChessPieceList.get(i).setxLocation(-1);
+                    deadChessPieceList.add(liveChessPieceList.remove(i));
+                }
+
             }
         }
     }
@@ -424,7 +600,7 @@ public class Board extends JFrame implements MouseListener {
                 }
             }
         }
-        setupColor();
+        setupBoardColor();
         for (String checkMate : checkMateList) {
             String[] checkMateLocations = checkMate.split(" ");
             if (!isBlackTurn) {
@@ -449,7 +625,7 @@ public class Board extends JFrame implements MouseListener {
 
         executeMove(label);
 
-        setupColor();
+        setupBoardColor();
 
         if (!isMoved) {
 
@@ -474,15 +650,26 @@ public class Board extends JFrame implements MouseListener {
             } else if (chosenPiece instanceof King) {
                 ((King) chosenPiece).setMoved(true);
             }
-            setupColor();
+            setupBoardColor();
 
             checkMateList();
 
             isBlackTurn = !isBlackTurn;
+
             if (isBlackTurn) {
+                if (blackTimerValue == 0) {
+                    blackTimerValue += 10;
+                } else {
+                    blackTimerValue += 11;
+                }
                 colorLabel.setText("BLACK'S TURN");
 
             } else {
+                if (whiteTimerValue == 0) {
+                    whiteTimerValue += 10;
+                } else {
+                    whiteTimerValue += 11;
+                }
                 colorLabel.setText("WHITE'S TURN");
             }
 
@@ -512,13 +699,11 @@ public class Board extends JFrame implements MouseListener {
             this.boardLocationX = Integer.parseInt(location[0]);
             this.boardLocationY = Integer.parseInt(location[1]);
             if (chosenLabel == e.getSource()) {
-                setupColor();
+                setupBoardColor();
                 chosenLabel = null;
             } else {
                 moveControl(((JLabel) e.getSource()));
             }
-        } else if (e.getSource() instanceof JMenuItem) {
-
         }
     }
 
