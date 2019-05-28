@@ -1,6 +1,8 @@
+package FrontEnd;
+
 import javax.swing.*;
 
-public class MenuBar extends JMenuBar {
+public class ChessMenuBar extends JMenuBar {
     private final JMenu fileMenu;
     private final JMenu modeMenu;
     private final JMenuItem normalModeMenuItem;
@@ -47,7 +49,7 @@ public class MenuBar extends JMenuBar {
         return openMenuItem;
     }
 
-    public MenuBar() {
+    public ChessMenuBar() {
         fileMenu = new JMenu("File");
         modeMenu = new JMenu("Modes");
         newGameMenuItem = new JMenuItem("New Game");

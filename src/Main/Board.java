@@ -1,5 +1,12 @@
+package Main;
+
 import Dialogs.PawnReplaceDialog;
 import Dialogs.WinnerDialog;
+import FrontEnd.ChessMenuBar;
+import FrontEnd.NorthPanel;
+import FrontEnd.NorthPanelLabels.BlackTimerLabel;
+import FrontEnd.NorthPanelLabels.ColorLabel;
+import FrontEnd.NorthPanelLabels.WhiteTimerLabel;
 import Pieces.*;
 
 import javax.swing.*;
@@ -20,19 +27,13 @@ public class Board extends JFrame implements MouseListener {
     private ChessPiece chosenPiece;
     private JLabel chosenLabel;
     private boolean isMoved;
-    private boolean isBlackTurn;
+    public boolean isBlackTurn;
     private List<ChessPiece> liveChessPieceList;
     private List<ChessPiece> deadChessPieceList;
     private HashSet<String> checkMateList;
-    private MenuBar menuBar;
+    private ChessMenuBar menuBar;
     private JPanel centerPanel;
-    private JPanel northPanel;
-    private JLabel whiteTimerLabel;
-    private JLabel blackTimerLabel;
-    private JLabel colorLabel;
-    private Thread threadTimer;
-    private int whiteTimerValue;
-    private int blackTimerValue;
+    private NorthPanel northPanel;
 
     private King blackKing = new King(ChessPiece.PieceColor.black, 4, 0);
     private King whiteKing = new King(ChessPiece.PieceColor.white, 4, 7);
@@ -67,12 +68,17 @@ public class Board extends JFrame implements MouseListener {
     private Queen blackQueen = new Queen(ChessPiece.PieceColor.black, 3, 0);
     private Queen whiteQueen = new Queen(ChessPiece.PieceColor.white, 3, 7);
 
+
+    public void setBlackTurn(boolean blackTurn) {
+        isBlackTurn = blackTurn;
+    }
+
     public Board() throws HeadlessException {
         this.boardSize = 8;
         liveChessPieceList = new ArrayList<>();
         deadChessPieceList = new ArrayList<>();
         labels = new JLabel[boardSize][boardSize];
-        menuBar = new MenuBar();
+        menuBar = new ChessMenuBar();
         isBlackTurn = false;
 
         setLayout(new BorderLayout());
@@ -84,9 +90,7 @@ public class Board extends JFrame implements MouseListener {
         centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(boardSize, boardSize));
         add(centerPanel, BorderLayout.CENTER);
-        northPanel = new JPanel();
-        northPanel.setPreferredSize(new Dimension(0, 100));
-        northPanel.setLayout(new FlowLayout());
+        northPanel = new NorthPanel();
         add(northPanel, BorderLayout.NORTH);
 
         menuBar.getNewGameMenuItem().addActionListener(e -> SetupNewGame());
@@ -147,10 +151,10 @@ public class Board extends JFrame implements MouseListener {
                 }
             }
             if (isBlackTurn) {
-                colorLabel.setText("BLACK'S TURN");
+                northPanel.colorLabel.setText("BLACK'S TURN");
 
             } else {
-                colorLabel.setText("WHITE'S TURN");
+                northPanel.colorLabel.setText("WHITE'S TURN");
             }
             setupBoardColor();
             setupIcons();
@@ -211,22 +215,22 @@ public class Board extends JFrame implements MouseListener {
         menuBar.getExitMenuItem().addActionListener(e -> dispose());
 
         menuBar.getNormalModeMenuItem().addActionListener(e -> {
-            blackTimerLabel.setVisible(false);
-            whiteTimerLabel.setVisible(false);
+            northPanel.blackTimerLabel.setVisible(false);
+            northPanel.whiteTimerLabel.setVisible(false);
             SetupNewGame();
 
-            if (threadTimer.isAlive()) {
-                threadTimer.stop();
+            if (northPanel.threadTimer.isAlive()) {
+                northPanel.threadTimer.stop();
             }
         });
 
         menuBar.getTournamentModeMenuItem().addActionListener(e -> {
-            blackTimerLabel.setVisible(true);
-            whiteTimerLabel.setVisible(true);
+            northPanel.blackTimerLabel.setVisible(true);
+            northPanel.whiteTimerLabel.setVisible(true);
             SetupNewGame();
-            whiteTimerValue = 10;
-            blackTimerValue = 0;
-            timer();
+            northPanel.whiteTimerValue = 10;
+            northPanel.blackTimerValue = 0;
+            northPanel.timer(this);
         });
 
         menuBar.getTrollGameMenuItem().addActionListener(e -> {
@@ -349,15 +353,15 @@ public class Board extends JFrame implements MouseListener {
             whiteQueen = new Queen(ChessPiece.PieceColor.white, 3, 7);
 
             isBlackTurn = false;
-            colorLabel.setText("WHITE'S TURN");
+            northPanel.colorLabel.setText("WHITE'S TURN");
             liveChessPieceList = new ArrayList<>();
             deadChessPieceList = new ArrayList<>();
             fillLiveChessList();
             setupIcons();
             setupBoardColor();
-            whiteTimerValue = 10;
-            blackTimerValue = -2;
-            blackTimerLabel.setText("0:10");
+            northPanel.whiteTimerValue = 10;
+            northPanel.blackTimerValue = -2;
+            northPanel.blackTimerLabel.setText("0:10");
         }
     }
 
@@ -386,82 +390,10 @@ public class Board extends JFrame implements MouseListener {
                 labels[i][j].setVerticalAlignment(JLabel.CENTER);
             }
         }
-        colorLabel = new JLabel();
-        colorLabel.setText("WHITE'S TURN");
-        colorLabel.setFont(new Font("Serif", Font.PLAIN, 25));
-        colorLabel.setVerticalAlignment(SwingConstants.CENTER);
-        colorLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        colorLabel.setOpaque(true);
-        colorLabel.setPreferredSize(new Dimension(400, 100));
-
-        whiteTimerLabel = new JLabel();
-        whiteTimerLabel.setText("0:10");
-        whiteTimerLabel.setFont(new Font("Serif", Font.PLAIN, 30));
-        whiteTimerLabel.setVerticalAlignment(SwingConstants.CENTER);
-        whiteTimerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        whiteTimerLabel.setOpaque(true);
-        whiteTimerLabel.setPreferredSize(new Dimension(250, 100));
-
-        blackTimerLabel = new JLabel();
-        blackTimerLabel.setText("0:10");
-        blackTimerLabel.setFont(new Font("Serif", Font.PLAIN, 30));
-        blackTimerLabel.setVerticalAlignment(SwingConstants.CENTER);
-        blackTimerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        blackTimerLabel.setOpaque(true);
-        blackTimerLabel.setPreferredSize(new Dimension(250, 100));
-
-        northPanel.add(whiteTimerLabel);
-        northPanel.add(colorLabel);
-        northPanel.add(blackTimerLabel);
-        whiteTimerLabel.setVisible(false);
-        blackTimerLabel.setVisible(false);
-    }
-
-    private void timer() {
-
-        threadTimer = new Thread(() -> {
-
-            while (true) {
-                if (isBlackTurn) {
-                    if (blackTimerValue > 9) {
-                        blackTimerLabel.setText("0:" + blackTimerValue);
-                    } else {
-                        blackTimerLabel.setText("0:0" + blackTimerValue);
-                    }
-                    blackTimerValue--;
-                } else {
-                    if (whiteTimerValue > 9) {
-                        whiteTimerLabel.setText("0:" + whiteTimerValue);
-                    } else {
-                        whiteTimerLabel.setText("0:0" + whiteTimerValue);
-                    }
-                    whiteTimerValue--;
-                }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-
-                }
-                if (whiteTimerValue == -1) {
-                    isBlackTurn = !isBlackTurn;
-                    whiteTimerValue = 0;
-                    setupBoardColor();
-                    colorLabel.setText("BLACK'S TURN");
-                    blackTimerValue += 10;
-                } else if (blackTimerValue == -1) {
-                    isBlackTurn = !isBlackTurn;
-                    blackTimerValue = 0;
-                    setupBoardColor();
-                    colorLabel.setText("WHITE'S TURN");
-                    whiteTimerValue += 10;
-                }
-            }
-        });
-        threadTimer.start();
 
     }
 
-    private void setupBoardColor() {
+    public void setupBoardColor() {
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
                 if (i % 2 == 0) {
@@ -616,7 +548,6 @@ public class Board extends JFrame implements MouseListener {
         }
     }
 
-
     private void moveControl(JLabel label) {
 
         chessPieceKnock(label);
@@ -656,22 +587,7 @@ public class Board extends JFrame implements MouseListener {
 
             isBlackTurn = !isBlackTurn;
 
-            if (isBlackTurn) {
-                if (blackTimerValue == 0) {
-                    blackTimerValue += 10;
-                } else {
-                    blackTimerValue += 11;
-                }
-                colorLabel.setText("BLACK'S TURN");
-
-            } else {
-                if (whiteTimerValue == 0) {
-                    whiteTimerValue += 10;
-                } else {
-                    whiteTimerValue += 11;
-                }
-                colorLabel.setText("WHITE'S TURN");
-            }
+            northPanel.setTimerAfterMove(this);
 
             PawnReplaceDialog pawnReplacer = new PawnReplaceDialog(liveChessPieceList, deadChessPieceList, labels, this);
             pawnReplacer.setLocationRelativeTo(this);
