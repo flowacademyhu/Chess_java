@@ -1,7 +1,7 @@
-package Dialogs;
+package FrontEnd.Dialogs;
 
-import Pieces.ChessPiece;
-import Pieces.Pawn;
+import BackEnd.Pieces.ChessPiece;
+import BackEnd.Pieces.Pawn;
 
 import javax.swing.*;
 import java.awt.*;

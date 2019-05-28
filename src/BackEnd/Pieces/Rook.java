@@ -1,25 +1,33 @@
-package Pieces;
+package BackEnd.Pieces;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashSet;
 import java.util.List;
 
-public class Queen extends ChessPiece {
-    public Queen(PieceColor color, int xLocation, int yLocation) {
+public class Rook extends ChessPiece {
+    private boolean isMoved = false;
+
+    public boolean isMoved() {
+        return isMoved;
+    }
+
+    public void setMoved(boolean moved) {
+        isMoved = moved;
+    }
+
+    public Rook(ChessPiece.PieceColor color, int xLocation, int yLocation) {
         this.pieceColor = color;
         this.xLocation = xLocation;
         this.yLocation = yLocation;
 
-        if (color == PieceColor.white) {
-            img = new ImageIcon("img/White_queen.png");
-        } else if (color == PieceColor.black) {
-            img = new ImageIcon("img/Black_queen.png");
+        if (color == ChessPiece.PieceColor.white) {
+            img = new ImageIcon("img/White_rook.png");
+        } else if (color == ChessPiece.PieceColor.black) {
+            img = new ImageIcon("img/Black_rook.png");
         }
     }
 
-    private void validation(
-            String dir, int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
+    private void validation(String dir, int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
         if ((x > 7 || y > 7) || (x < 0 || y < 0)) {
             return;
         }
@@ -49,23 +57,10 @@ public class Queen extends ChessPiece {
         if (dir.equals("West")) {
             validation("West", ++x, y, labels, liveChessPieceList);
         }
-        if (dir.equals("NorthWest")) {
-            validation("NorthWest", --x, --y, labels, liveChessPieceList);
-        }
-        if (dir.equals("SouthEast")) {
-            validation("SouthEast", ++x, ++y, labels, liveChessPieceList);
-        }
-        if (dir.equals("SouthWest")) {
-            validation("SouthWest", --x, ++y, labels, liveChessPieceList);
-        }
-        if (dir.equals("NorthEast")) {
-            validation("NorthEast", ++x, --y, labels, liveChessPieceList);
-        }
     }
 
     @Override
-    public void validMoveColor(
-            int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
+    public void validMoveColor(int x, int y, JLabel[][] labels, List<ChessPiece> liveChessPieceList) {
 
         validation("North", x, --y, labels, liveChessPieceList);
         y = yLocation;
@@ -74,16 +69,5 @@ public class Queen extends ChessPiece {
         validation("East", --x, y, labels, liveChessPieceList);
         x = xLocation;
         validation("West", ++x, y, labels, liveChessPieceList);
-        x = xLocation;
-        validation("NorthWest", --x, --y, labels, liveChessPieceList);
-        y = yLocation;
-        x = xLocation;
-        validation("SouthEast", ++x, ++y, labels, liveChessPieceList);
-        y = yLocation;
-        x = xLocation;
-        validation("SouthWest", --x, ++y, labels, liveChessPieceList);
-        y = yLocation;
-        x = xLocation;
-        validation("NorthEast", ++x, --y, labels, liveChessPieceList);
     }
 }

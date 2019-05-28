@@ -1,4 +1,4 @@
-package FrontEnd.NorthPanelLabels;
+package FrontEnd.NorthPanelPackage.Labels;
 
 import javax.swing.*;
 import java.awt.*;

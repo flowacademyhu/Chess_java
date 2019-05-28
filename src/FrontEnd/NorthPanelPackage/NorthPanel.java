@@ -1,9 +1,9 @@
-package FrontEnd;
+package FrontEnd.NorthPanelPackage;
 
-import FrontEnd.NorthPanelLabels.BlackTimerLabel;
-import FrontEnd.NorthPanelLabels.ColorLabel;
-import FrontEnd.NorthPanelLabels.WhiteTimerLabel;
-import Main.Board;
+import FrontEnd.NorthPanelPackage.Labels.BlackTimerLabel;
+import FrontEnd.NorthPanelPackage.Labels.ColorLabel;
+import FrontEnd.NorthPanelPackage.Labels.WhiteTimerLabel;
+import BackEnd.Board;
 
 import javax.swing.*;
 import java.awt.*;

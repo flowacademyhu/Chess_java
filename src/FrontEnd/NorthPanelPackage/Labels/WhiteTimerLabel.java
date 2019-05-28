@@ -1,10 +1,10 @@
-package FrontEnd.NorthPanelLabels;
+package FrontEnd.NorthPanelPackage.Labels;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class BlackTimerLabel extends JLabel {
-    public BlackTimerLabel() {
+public class WhiteTimerLabel extends JLabel {
+    public WhiteTimerLabel() {
         this.setText("0:10");
         this.setFont(new Font("Serif", Font.PLAIN, 30));
         this.setVerticalAlignment(SwingConstants.CENTER);

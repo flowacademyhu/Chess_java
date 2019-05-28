@@ -1,4 +1,4 @@
-package Pieces;
+package BackEnd.Pieces;
 
 import javax.swing.*;
 import java.io.Serializable;

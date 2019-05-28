@@ -1,4 +1,4 @@
-package Dialogs;
+package FrontEnd.Dialogs;
 
 import javax.swing.*;
 
